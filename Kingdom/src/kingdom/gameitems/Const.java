@@ -9,6 +9,8 @@ package kingdom.gameitems;
  */
 public class Const {
     
+    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    
     /**
      * type of tile on the board
      */
@@ -30,4 +32,9 @@ public class Const {
         BLUE,
         YELLOW
     }
+    
+    /**
+     * folder where all game resources are stored
+     */
+    public static final String GAME_HOME_FOLDER = System.getProperty("user.home") + FILE_SEPARATOR + "kingdom" + FILE_SEPARATOR;
 }

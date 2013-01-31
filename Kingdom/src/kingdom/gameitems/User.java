@@ -21,13 +21,7 @@ public class User {
     private List<Castle> castles;
     
     /* all many owned by user */
-    private int coins1;
-    private int coins5;
-    private int coins10;
-    private int coins50;
-    private int coins100;
-
-    
+    private int money;
     
     public int getId() {
         return id;
