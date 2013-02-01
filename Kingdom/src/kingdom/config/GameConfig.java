@@ -46,7 +46,6 @@ public class GameConfig {
         for(BoardCell[] row : boardCells){
             for(BoardCell cell: row){
                 placedItems.add(cell.getItem());
-                cell = new BoardCell();
             }
         }
     }

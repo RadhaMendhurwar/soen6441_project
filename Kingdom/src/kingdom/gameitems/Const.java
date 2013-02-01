@@ -12,6 +12,15 @@ public class Const {
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
     
     /**
+     * Total number of rows in the game board
+     */
+    public static final int ROWS = 5;
+    /**
+     * Total number of columns in the game board
+     */
+    public static final int COLS = 6;
+    
+    /**
      * type of tile on the board
      */
     public enum TileType {

@@ -15,6 +15,10 @@ public class BoardCell extends JPanel{
     public BoardCell(){
         // TODO
     }
+    
+    public BoardCell(BorderItem item){
+        this.item = item;
+    }
 
     public BorderItem getItem() {
         return item;

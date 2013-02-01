@@ -45,10 +45,6 @@ public class Game {
         this.money = 1079;
         this.currentUser = 0;
         this.epoch = 0;
-        
-        //test
-        boardCells[2][3].setItem(freeTiles.get(5));
-        boardCells[1][2].setItem(freeCastles.get(0));
     }
     
     public boolean saveAllConfigs(){
@@ -58,9 +54,7 @@ public class Game {
     
     public boolean loadAllConfigs(){
         GameConfig conf = confManager.loadConfig();
-        //temp test
-        this.epoch = conf.getEpoch();
-        return true;
+        return this.updateThisByConfig(conf);
     }
     
     
@@ -123,6 +117,35 @@ public class Game {
 
     public void setBoardCells(BoardCell[][] boardCells) {
         this.boardCells = boardCells;
+    }
+
+    /**
+     * copy all parameters from configuration into actual object
+     * @param conf Configuration initialized from file in file system
+     * @return  true if success
+     */
+    private boolean updateThisByConfig(GameConfig conf) {
+
+        this.epoch = conf.getEpoch();
+        this.currentUser = conf.getCurrentUser();
+        this.money = conf.getMoney();
+        this.freeTiles = conf.getFreeTiles();
+        /* all not used castles in the game */
+        this.freeCastles = conf.getFreeCastles();
+        /* list of actually playing users [2-4] */
+        this.activeUsers = conf.getActiveUsers();
+        
+        List<BorderItem> placedItems = conf.getPlacedItems();
+
+        // create all border cells based on saved items that was on the board
+        for (int r = 0; r < this.boardCells.length; ++r) {
+            boardCells[r] = new BoardCell[6];
+            for (int c = 0; c < boardCells[r].length; ++c) {
+                boardCells[r][c] = new BoardCell(placedItems.get(c + Const.COLS * r));
+            }
+        }
+
+        return true;
     }
     
     
