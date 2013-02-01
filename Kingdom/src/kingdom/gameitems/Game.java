@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TEAM C in SOEN6441/WW
  */
 package kingdom.gameitems;
 
@@ -11,8 +10,9 @@ import kingdom.config.GameConfig;
 import kingdom.utiles.InitHelper;
 
 /**
- *
- * @author andriy
+ * Them main class (engine) of the game. The class contains all object to be able to run the game.
+ * Instance of the class has to be created once at the beginning. This class has corespondent class GameConfig, that may be stored/restored.
+ * The class has to be Singleton. (will be implemented later).
  */
 public class Game {
     
@@ -33,12 +33,14 @@ public class Game {
     /* board cells 5-rows, 6-columns [row][column] */
     private BoardCell[][] boardCells = new BoardCell[5][]; //[row][column];
     
+    /**
+     * may be removed later if not required
+     */
     public Game(){
         init();
     }
 
     private void init() {
-        
         InitHelper.createBoardCells(boardCells);
         InitHelper.createTiles(freeTiles);
         InitHelper.createCastles(freeCastles);
@@ -47,11 +49,19 @@ public class Game {
         this.epoch = 0;
     }
     
+    /**
+     * Generate Configuration from actual state of the class Game, and save this configuration into file system.
+     * @return true if success
+     */
     public boolean saveAllConfigs(){
         GameConfig gc = new GameConfig(this);
         return confManager.saveConfig(gc);
     }
     
+    /**
+     * Load previously saved configuration from file system. Update actual class Game with all properties loaded from configuration. 
+     * @return true if success
+     */
     public boolean loadAllConfigs(){
         GameConfig conf = confManager.loadConfig();
         return this.updateThisByConfig(conf);
@@ -63,64 +73,120 @@ public class Game {
     // accessors                                                                        //
     //////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     *
+     * @return   current epoch of the game
+     */
     public int getEpoch() {
         return epoch;
     }
 
+    /**
+     *
+     * @param epoch  current epoch of the game
+     */
     public void setEpoch(int epoch) {
         this.epoch = epoch;
     }
 
+    /**
+     *
+     * @return number of user that has to perform operation (actual user)
+     */
     public int getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     *
+     * @param currentUser number of user that has to perform operation (actual user)
+     */
     public void setCurrentUser(int currentUser) {
         this.currentUser = currentUser;
     }
 
+    /**
+     *
+     * @return total amount of money in Game Money Bank
+     */
     public int getMoney() {
         return money;
     }
 
+    /**
+     *
+     * @param money total amount of money in Game Money Bank
+     */
     public void setMoney(int money) {
         this.money = money;
     }
 
+    /**
+     *
+     * @return Tiles that belong to Game (in Tile bank). (not assigned to user OR gameBorder)
+     */
     public List<Tile> getFreeTiles() {
         return freeTiles;
     }
 
+    /**
+     *
+     * @param freeTiles Tiles that belong to Game (in Tile bank). (not assigned to user OR gameBorder)
+     */
     public void setFreeTiles(List<Tile> freeTiles) {
         this.freeTiles = freeTiles;
     }
 
+    /**
+     *
+     * @return castles that belong to Game. (not assigned to user OR gameBorder)
+     */
     public List<Castle> getFreeCastles() {
         return freeCastles;
     }
 
+    /**
+     *
+     * @param freeCastles castles that belong to Game. (not assigned to user OR gameBorder)
+     */
     public void setFreeCastles(List<Castle> freeCastles) {
         this.freeCastles = freeCastles;
     }
 
+    /**
+     *
+     * @return list of active users (2-4)
+     */
     public List<User> getActiveUsers() {
         return activeUsers;
     }
 
+    /**
+     *
+     * @param activeUsers list of active users (2-4)
+     */
     public void setActiveUsers(List<User> activeUsers) {
         this.activeUsers = activeUsers;
     }
 
+    /**
+     *
+     * @return Two dimensional array that represent a border cells size 5x6 [row][column]
+     */
     public BoardCell[][] getBoardCells() {
         return boardCells;
     }
 
+    /**
+     *
+     * @param boardCells  Two dimensional array that represent a border cells size 5x6 [row][column]
+     */
     public void setBoardCells(BoardCell[][] boardCells) {
         this.boardCells = boardCells;
     }
 
     /**
-     * copy all parameters from configuration into actual object
+     * Copies all parameters from configuration into actual object
      * @param conf Configuration initialized from file in file system
      * @return  true if success
      */

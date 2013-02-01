@@ -1,12 +1,10 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TEAM C in SOEN6441/WW
  */
 package kingdom;
 
 /**
- *
- * @author andriy
+ * Main class to start application
  */
 public class Main {
 

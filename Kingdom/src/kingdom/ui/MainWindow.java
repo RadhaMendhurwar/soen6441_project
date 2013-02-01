@@ -1,12 +1,10 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TEAM C in SOEN6441/WW
  */
 package kingdom.ui;
 
 /**
- *
- * @author andriy
+ * Main window of the game. The window will show all properties of <code>Game.java</code>
  */
 public class MainWindow extends javax.swing.JFrame {
 

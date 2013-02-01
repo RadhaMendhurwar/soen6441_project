@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TEAM C in SOEN6441/WW
  */
 package kingdom.gameitems;
 
@@ -23,34 +22,66 @@ public class User {
     /* all many owned by user */
     private int money;
     
+    /**
+     *
+     * @return generated unique id of user (may be not needed, so may be deleted later)
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id generated unique id of user (may be not needed, so may be deleted later)
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return username provided at the beginning of the game
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     *
+     * @param userName username provided at the beginning of the game
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    /**
+     *
+     * @return single tile owned by user
+     */
     public Tile getOwnedTile() {
         return ownedTile;
     }
 
+    /**
+     *
+     * @param ownedTile single tile owned by user
+     */
     public void setOwnedTile(Tile ownedTile) {
         this.ownedTile = ownedTile;
     }
 
+    /**
+     *
+     * @return all castles owned by user
+     */
     public List<Castle> getCastles() {
         return castles;
     }
 
+    /**
+     *
+     * @param castles all castles owned by user
+     */
     public void setCastles(List<Castle> castles) {
         this.castles = castles;
     }

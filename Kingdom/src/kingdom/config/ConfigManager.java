@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TEAM C in SOEN6441/WW
  */
 package kingdom.config;
 
@@ -15,15 +14,21 @@ import java.util.logging.Logger;
 import kingdom.gameitems.Const;
 
 /**
- *
+ * Instance of the class contains all functionality to save/restore/getDefault state of Game.
+ * Normally It will save the main configuration class <code>GameConfig.java</code> which will have all properties of Game. 
  */
 public class ConfigManager {
 
     /**
-     * XML file where configuration is saved
+     * XML file name where configuration is saved
      */
     public static final String OUT_FILE = "game_config.xml";
 
+    /**
+     * Store <code>gameConfig</code> object into xml file in file system. 
+     * @param gameConfig main configuration object of the Game. It contains all properties of game state.
+     * @return true if success
+     */
     public boolean saveConfig(GameConfig gameConfig) {
         XStream xstream = new XStream(new DomDriver());
         String xml = xstream.toXML(gameConfig);
@@ -50,6 +55,10 @@ public class ConfigManager {
         return true;
     }
 
+    /**
+     * Restore <code>gameConfig</code> object from xml file in file system. 
+     * @return Previously saved <code>gameConfig</code> object. Or NULL if some problem.
+     */
     public GameConfig loadConfig() {
         Object obj;
         try {
@@ -68,8 +77,11 @@ public class ConfigManager {
         return null;
     }
 
+    /**
+     * @return Default <code>GameConfig</code> object. The object is created with all default values.
+     */
     public GameConfig loadDefaultConfig() {
-
+        //TODO implement (same as in Game.init())
         return null;
     }
 }

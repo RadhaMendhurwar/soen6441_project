@@ -1,6 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * TEAM C in SOEN6441/WW
  */
 package kingdom.utiles;
 
@@ -12,8 +11,7 @@ import kingdom.gameitems.Const.TileType;
 import kingdom.gameitems.Tile;
 
 /**
- *
- * @author andriy
+ * Helper class to create default properties for all objects (Game, User, ...)
  */
 public class InitHelper {
 
