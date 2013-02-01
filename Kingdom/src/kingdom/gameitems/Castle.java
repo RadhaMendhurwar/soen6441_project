@@ -5,16 +5,17 @@ import kingdom.gameitems.Const.UserColor;
 /**
  * Represent an Castle on GameBoard
  */
-public class Castle extends BoardItem {
+public class Castle extends BorderItem {
     
     /* rank of castle 1-4 */
     private int rank;
-    
     /* color of castle */
     private UserColor color;
     
-    public Castle(UserColor color){
+    public Castle(UserColor color, int rank){
+        super("" + color + " R" + rank);
         this.color = color;
+        this.rank = rank;
     }
 
     public int getRank() {

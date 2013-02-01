@@ -4,8 +4,6 @@
  */
 package kingdom;
 
-import kingdom.gameitems.Const;
-
 /**
  *
  * @author andriy
