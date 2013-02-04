@@ -5,7 +5,9 @@
 package kingdom.ui;
 
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import kingdom.config.StartWizardConfig;
+import kingdom.gameitems.Game;
 
 /**
  *
@@ -14,6 +16,7 @@ import kingdom.config.StartWizardConfig;
 public class StartWizard extends javax.swing.JDialog {
     
     private final StartWizardConfig wizConfig = new StartWizardConfig();
+    private final Game theGame = Game.getInstance();
 
     /**
      * Creates new form StartWizard
@@ -34,11 +37,13 @@ public class StartWizard extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        btnCancel = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnFinish = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         lblTopInfo = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
         cardPanel = new javax.swing.JPanel();
         wizPage1 = new javax.swing.JPanel();
         cmbUsers = new javax.swing.JComboBox();
@@ -64,6 +69,14 @@ public class StartWizard extends javax.swing.JDialog {
         setResizable(false);
 
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnCancel);
 
         btnBack.setText("Back");
         btnBack.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -94,25 +107,13 @@ public class StartWizard extends javax.swing.JDialog {
         getContentPane().add(jPanel2, java.awt.BorderLayout.SOUTH);
 
         jPanel3.setPreferredSize(new java.awt.Dimension(865, 50));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTopInfo.setText("Select optoin to start game");
+        jPanel3.add(lblTopInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTopInfo)
-                .addContainerGap(407, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTopInfo)
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
+        lblError.setForeground(new java.awt.Color(245, 6, 6));
+        jPanel3.add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.NORTH);
 
@@ -172,7 +173,7 @@ public class StartWizard extends javax.swing.JDialog {
             .addGroup(wizPage1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(chkLoadGame)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addGroup(wizPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
@@ -223,15 +224,15 @@ public class StartWizard extends javax.swing.JDialog {
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser1)
                     .addComponent(edtUser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser2)
                     .addComponent(edtUser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser3)
                     .addComponent(edtUser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser4)
                     .addComponent(edtUser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -247,22 +248,33 @@ public class StartWizard extends javax.swing.JDialog {
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
-        lblTopInfo.setText("Hello success");
-        CardLayout cardsLayout = (CardLayout)cardPanel.getLayout();
-        cardsLayout.show(cardPanel, "card3");
-        //this.remove(jPanel1);
+        showSecondPage();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+
+        if (wizConfig.isLoadSelected()) {
+            Game game = Game.getInstance();
+            boolean result = game.loadAllConfigs();
+            if (result) {
+                this.dispose();
+            } else {
+                showFirstPage();
+                lblError.setText("Cannot load configuration. Be sure it exists.");
+            }
+        } else {
+            if (isValidUserInput()) {
+                theGame.setStartInformation(wizConfig);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "All User information must be completed", null, JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnFinishActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-         lblTopInfo.setText("Hello success111");
-        CardLayout cardsLayout = (CardLayout)cardPanel.getLayout();
-        cardsLayout.show(cardPanel, "card2");
+        showFirstPage();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void wizPage1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_wizPage1ComponentShown
@@ -292,6 +304,10 @@ public class StartWizard extends javax.swing.JDialog {
         wizConfig.setSelectedNumberOfUser(cmbUsers.getSelectedIndex() + 2); // combobox selection starts with 2
         updatePage1(wizConfig);
     }//GEN-LAST:event_cmbUsersActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -336,6 +352,7 @@ public class StartWizard extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JToggleButton btnFinish;
     private javax.swing.JButton btnNext;
     private javax.swing.JPanel cardPanel;
@@ -349,6 +366,7 @@ public class StartWizard extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblError;
     private javax.swing.JLabel lblTopInfo;
     private javax.swing.JLabel lblUser1;
     private javax.swing.JLabel lblUser2;
@@ -358,31 +376,73 @@ public class StartWizard extends javax.swing.JDialog {
     private javax.swing.JPanel wizPage2;
     // End of variables declaration//GEN-END:variables
 
+    /* called everytime when page 1 of wizard is shown */
     private void updatePage1(StartWizardConfig wizConfig) {
-         chkUserNum.setSelected(!wizConfig.isLoadSelected());
-         chkLoadGame.setSelected(wizConfig.isLoadSelected());
-         cmbUsers.setEnabled(!wizConfig.isLoadSelected());
-         
-         int comboIndex =wizConfig.getSelectedNumberOfUser() - 2; // first option is 2 user
-         
-         if(cmbUsers.getSelectedIndex() != comboIndex){
-             cmbUsers.setSelectedIndex(comboIndex);
-         }
-         
-    }
+        
+        chkUserNum.setSelected(!wizConfig.isLoadSelected());
+        chkLoadGame.setSelected(wizConfig.isLoadSelected());
+        cmbUsers.setEnabled(!wizConfig.isLoadSelected());
 
-    private void updatePage2(StartWizardConfig wizConfig) {
-        if(wizConfig.isLoadSelected()){
-            this.dispose();
-        } else {
-            int numberOfUser = wizConfig.getSelectedNumberOfUser();
-            
-            lblUser3.setVisible(numberOfUser > 2);
-            edtUser3.setVisible(numberOfUser > 2);
-            lblUser4.setVisible(numberOfUser > 3);
-            edtUser4.setVisible(numberOfUser > 3);
+        int comboIndex = wizConfig.getSelectedNumberOfUser() - 2; // first option is 2 user
+
+        if (cmbUsers.getSelectedIndex() != comboIndex) {
+            cmbUsers.setSelectedIndex(comboIndex);
         }
         
-        lblTopInfo.setText("Provide name for all users" );
+        btnNext.setEnabled(!wizConfig.isLoadSelected());
+        btnFinish.setEnabled(wizConfig.isLoadSelected());
+    }
+
+    /* called everytime when page 2 of wizard is shown */
+    private void updatePage2(StartWizardConfig wizConfig) {
+        lblError.setText(""); // reset error message on page enter
+        lblTopInfo.setText("Provide name for all users");
+
+        int numberOfUser = wizConfig.getSelectedNumberOfUser();
+        lblUser3.setVisible(numberOfUser > 2);
+        edtUser3.setVisible(numberOfUser > 2);
+        lblUser4.setVisible(numberOfUser > 3);
+        edtUser4.setVisible(numberOfUser > 3);
+        
+        btnFinish.setEnabled(true);
+        btnNext.setEnabled(false);
+    }
+
+    private void showSecondPage() {
+        CardLayout cardsLayout = (CardLayout)cardPanel.getLayout();
+        cardsLayout.show(cardPanel, "card3");
+    }
+
+    private void showFirstPage() {
+        CardLayout cardsLayout = (CardLayout)cardPanel.getLayout();
+        cardsLayout.show(cardPanel, "card2");
+    }
+
+    private boolean isValidUserInput() {
+        
+        String userName0 = edtUser1.getText().trim();
+        String userName1 = edtUser2.getText().trim();
+        String userName2 = edtUser3.getText().trim();
+        String userName3 = edtUser4.getText().trim();
+        
+        if(userName0.isEmpty() || userName1.isEmpty()){
+            return false;
+        }
+        
+        if(wizConfig.getSelectedNumberOfUser() > 2 && userName2.isEmpty()){
+            return false;
+        }
+        
+        if(wizConfig.getSelectedNumberOfUser() > 3 && userName3.isEmpty()){
+            return false;
+        }
+        
+        
+        // update wizardConfig
+        wizConfig.setUsename0(userName0);
+        wizConfig.setUsename1(userName1);
+        wizConfig.setUsename2(userName2);
+        wizConfig.setUsename3(userName3);
+        return true;
     }
 }

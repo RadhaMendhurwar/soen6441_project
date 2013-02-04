@@ -22,6 +22,11 @@ public class User {
     /* all many owned by user */
     private int money;
     
+    public User(String name, int id){
+        this.userName = name;
+        this.id = id;
+    }
+    
     /**
      *
      * @return generated unique id of user (may be not needed, so may be deleted later)
@@ -85,6 +90,13 @@ public class User {
     public void setCastles(List<Castle> castles) {
         this.castles = castles;
     }
-    
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
     
 }

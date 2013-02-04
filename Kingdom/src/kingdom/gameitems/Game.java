@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kingdom.config.ConfigManager;
 import kingdom.config.GameConfig;
+import kingdom.config.StartWizardConfig;
 import kingdom.utiles.InitHelper;
 
 /**
@@ -15,6 +16,8 @@ import kingdom.utiles.InitHelper;
  * The class has to be Singleton. (will be implemented later).
  */
 public class Game {
+    
+    private static Game theInstance = null;
     
     private static final ConfigManager confManager = new ConfigManager();
     /* current epoch */
@@ -34,9 +37,29 @@ public class Game {
     private BoardCell[][] boardCells = new BoardCell[5][]; //[row][column];
     
     /**
+     * Main method to get reference to singleton Game object
+     * <p>Method is thread safe
+     * @return Object Game. (Singleton)
+     */
+    public static Game getInstance() {
+        if (theInstance == null) {
+            synchronized (Game.class) {
+                if (theInstance == null) {
+                    theInstance = new Game();
+                    return theInstance;
+                } else {
+                    return theInstance;
+                }
+            }
+        } else {
+            return theInstance;
+        }
+    }
+    
+    /**
      * may be removed later if not required
      */
-    public Game(){
+    private Game(){
         init();
     }
 
@@ -212,6 +235,39 @@ public class Game {
         }
 
         return true;
+    }
+
+    public void setStartInformation(StartWizardConfig wizConfig) {
+        this.activeUsers.clear();
+        this.epoch = 0;
+        int numberOfUsers = wizConfig.getSelectedNumberOfUser();
+        
+        this.activeUsers.add(new User(wizConfig.getUsename0(), 0));
+        this.activeUsers.add(new User(wizConfig.getUsename1(), 1));
+        if(numberOfUsers > 2){
+            this.activeUsers.add(new User(wizConfig.getUsename2(), 2));
+        }
+        if(numberOfUsers > 3){
+            this.activeUsers.add(new User(wizConfig.getUsename3(), 3));
+        }
+    }
+
+    /**
+     * Change current user to next in cycle order.
+     * @return User object next to user before call
+     */
+    public User switchNextUser() {
+        
+        if(activeUsers.isEmpty()){
+            return null;
+        }
+        
+        if(currentUser + 1 >= activeUsers.size()){
+            currentUser = 0;
+        } else {
+            currentUser++;
+        }
+        return activeUsers.get(currentUser);
     }
     
     

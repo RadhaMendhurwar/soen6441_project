@@ -3,10 +3,17 @@
  */
 package kingdom.ui;
 
+import javax.swing.JOptionPane;
+import kingdom.gameitems.Game;
+import kingdom.gameitems.User;
+import sun.nio.cs.ext.GB18030;
+
 /**
  * Main window of the game. The window will show all properties of <code>Game.java</code>
  */
 public class MainWindow extends javax.swing.JFrame {
+    
+    private final Game theGame = Game.getInstance();
 
     /**
      * Creates new form MainWindow
@@ -29,13 +36,27 @@ public class MainWindow extends javax.swing.JFrame {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
         pnlGame = new javax.swing.JPanel();
+        pnlRight = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        pnlUserInfo = new javax.swing.JPanel();
+        lblUser0 = new javax.swing.JLabel();
+        lblUser1 = new javax.swing.JLabel();
+        lblUser2 = new javax.swing.JLabel();
+        lblUser3 = new javax.swing.JLabel();
+        lblUserTotal = new javax.swing.JLabel();
+        lblUserName = new javax.swing.JLabel();
+        lblUserCastle = new javax.swing.JLabel();
+        lblUserTile = new javax.swing.JLabel();
+        btnNextUser = new javax.swing.JButton();
         mnbTopMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        itemSaveGame = new javax.swing.JMenuItem();
+        itemLoadGame = new javax.swing.JMenuItem();
+        itemStartWizard = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        itmStartWizard = new javax.swing.JMenuItem();
+        actNextUser = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kingdom");
@@ -72,7 +93,7 @@ public class MainWindow extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 391, Short.MAX_VALUE))
+                .addGap(0, 491, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,52 +105,159 @@ public class MainWindow extends javax.swing.JFrame {
 
         jSplitPane1.setLeftComponent(jPanel3);
 
+        pnlRight.setLayout(new java.awt.BorderLayout());
+
         jTabbedPane1.setBackground(new java.awt.Color(237, 236, 235));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 451, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Tiles", jPanel4);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 233, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 451, Short.MAX_VALUE)
+            .addGap(0, 351, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Casles", jPanel5);
 
-        jSplitPane1.setRightComponent(jTabbedPane1);
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 233, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 351, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Tiles", jPanel4);
+
+        pnlRight.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        pnlUserInfo.setBackground(new java.awt.Color(182, 242, 183));
+        pnlUserInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlUserInfo.setPreferredSize(new java.awt.Dimension(245, 100));
+
+        lblUser0.setText("user: ");
+
+        lblUser1.setText("total $:");
+
+        lblUser2.setText("castle:");
+
+        lblUser3.setText("tile:");
+
+        lblUserTotal.setText(" ");
+
+        lblUserName.setText(" ");
+
+        lblUserCastle.setText(" ");
+
+        lblUserTile.setText(" ");
+
+        btnNextUser.setText("Next");
+        btnNextUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextUserActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlUserInfoLayout = new javax.swing.GroupLayout(pnlUserInfo);
+        pnlUserInfo.setLayout(pnlUserInfoLayout);
+        pnlUserInfoLayout.setHorizontalGroup(
+            pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUserInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblUser0)
+                    .addComponent(lblUser1)
+                    .addComponent(lblUser2)
+                    .addComponent(lblUser3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlUserInfoLayout.createSequentialGroup()
+                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUserName)
+                            .addComponent(lblUserTotal))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                        .addComponent(btnNextUser))
+                    .addGroup(pnlUserInfoLayout.createSequentialGroup()
+                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUserCastle)
+                            .addComponent(lblUserTile))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        pnlUserInfoLayout.setVerticalGroup(
+            pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlUserInfoLayout.createSequentialGroup()
+                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlUserInfoLayout.createSequentialGroup()
+                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblUser0)
+                            .addComponent(lblUserName))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblUser1)
+                            .addComponent(lblUserTotal)))
+                    .addComponent(btnNextUser))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUser2)
+                    .addComponent(lblUserCastle))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUser3)
+                    .addComponent(lblUserTile))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnlRight.add(pnlUserInfo, java.awt.BorderLayout.SOUTH);
+
+        jSplitPane1.setRightComponent(pnlRight);
 
         jPanel1.add(jSplitPane1, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("File");
+
+        itemSaveGame.setText("Save Game");
+        itemSaveGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemSaveGameActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemSaveGame);
+
+        itemLoadGame.setText("Load Game");
+        itemLoadGame.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemLoadGameActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemLoadGame);
+
+        itemStartWizard.setText("Start Game");
+        itemStartWizard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemStartWizardActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemStartWizard);
+
         mnbTopMenu.add(jMenu1);
 
         jMenu2.setText("Start");
 
-        itmStartWizard.setText("Start Wizard");
-        itmStartWizard.addActionListener(new java.awt.event.ActionListener() {
+        actNextUser.setText("Next User (debug)");
+        actNextUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmStartWizardActionPerformed(evt);
+                actNextUserActionPerformed(evt);
             }
         });
-        jMenu2.add(itmStartWizard);
+        jMenu2.add(actNextUser);
 
         mnbTopMenu.add(jMenu2);
 
@@ -138,11 +266,39 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void itmStartWizardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmStartWizardActionPerformed
+    private void itemSaveGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveGameActionPerformed
         // TODO add your handling code here:
-        StartWizard ad = new StartWizard(this, true);
-                ad.setVisible(true);
-    }//GEN-LAST:event_itmStartWizardActionPerformed
+        boolean isSaved = Game.getInstance().saveAllConfigs();
+        if(isSaved){
+            JOptionPane.showMessageDialog(this, "Configuration Saved");
+        } else {
+            JOptionPane.showMessageDialog(this, "Problem saving Configuration", null, JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_itemSaveGameActionPerformed
+
+    private void itemLoadGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLoadGameActionPerformed
+        // TODO add your handling code here:
+        boolean loadResult = Game.getInstance().loadAllConfigs();
+        if(loadResult){
+            JOptionPane.showMessageDialog(this, "Configuration Loaded");
+        } else {
+            JOptionPane.showMessageDialog(this, "Problem loading Configuration", null, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_itemLoadGameActionPerformed
+
+    private void itemStartWizardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemStartWizardActionPerformed
+        StartWizard startWizard = new StartWizard(this, true);
+        startWizard.setVisible(true);
+    }//GEN-LAST:event_itemStartWizardActionPerformed
+
+    private void actNextUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actNextUserActionPerformed
+        showNextUser();
+    }//GEN-LAST:event_actNextUserActionPerformed
+
+    private void btnNextUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextUserActionPerformed
+        showNextUser();
+    }//GEN-LAST:event_btnNextUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,7 +335,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem itmStartWizard;
+    private javax.swing.JMenuItem actNextUser;
+    private javax.swing.JButton btnNextUser;
+    private javax.swing.JMenuItem itemLoadGame;
+    private javax.swing.JMenuItem itemSaveGame;
+    private javax.swing.JMenuItem itemStartWizard;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
@@ -189,7 +349,32 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblUser0;
+    private javax.swing.JLabel lblUser1;
+    private javax.swing.JLabel lblUser2;
+    private javax.swing.JLabel lblUser3;
+    private javax.swing.JLabel lblUserCastle;
+    private javax.swing.JLabel lblUserName;
+    private javax.swing.JLabel lblUserTile;
+    private javax.swing.JLabel lblUserTotal;
     private javax.swing.JMenuBar mnbTopMenu;
     private javax.swing.JPanel pnlGame;
+    private javax.swing.JPanel pnlRight;
+    private javax.swing.JPanel pnlUserInfo;
     // End of variables declaration//GEN-END:variables
+
+    private void showNextUser() {
+        
+        User curUser = theGame.switchNextUser();
+        
+        if(curUser == null){
+            return;
+        }
+        
+        //show user info
+        lblUserName.setText(curUser.getUserName());
+        lblUserCastle.setText("" + curUser.getCastles());
+        lblUserTile.setText("" + curUser.getOwnedTile());
+        lblUserTotal.setText("" + curUser.getMoney());
+    }
 }

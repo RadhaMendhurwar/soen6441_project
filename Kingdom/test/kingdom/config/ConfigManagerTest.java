@@ -45,7 +45,7 @@ public class ConfigManagerTest {
             saved.delete();
         }
 
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.setEpoch(2);
         game.getBoardCells()[0][3].setItem(game.getFreeTiles().get(3));
         game.getBoardCells()[2][1].setItem(game.getFreeCastles().get(3));
@@ -61,7 +61,7 @@ public class ConfigManagerTest {
     public void testLoadConfig() {
         System.out.println("loadConfig");
         
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.loadAllConfigs();
         
         int result = game.getEpoch();
