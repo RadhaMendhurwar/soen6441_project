@@ -57,5 +57,9 @@ public class Castle extends BorderItem {
         this.color = color;
     }
     
+    @Override
+    public String toString(){
+        return String.valueOf(color) + "[" + rank + "]";
+    }
     
 }

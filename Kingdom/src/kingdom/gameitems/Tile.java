@@ -43,5 +43,19 @@ public class Tile extends BorderItem{
         return score;
     }
      
-     
+    
+    public String toString(){
+        String result;
+         switch(tileType){
+            case RESOURCE:
+            case HAZARD:
+                result = String.valueOf(tileType) + "[" + score + "]";
+                break;
+            default: {
+                result = String.valueOf(tileType);
+            }
+        }
+        return result;
+    }
+    
 }

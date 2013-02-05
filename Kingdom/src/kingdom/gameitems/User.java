@@ -4,6 +4,7 @@
 package kingdom.gameitems;
 
 import java.util.List;
+import kingdom.gameitems.Const.UserColor;
 
 /**
  * Represent a user in the game
@@ -18,13 +19,17 @@ public class User {
     private Tile ownedTile;
     /* castles owned by user */
     private List<Castle> castles;
+    /* user color */
+    private UserColor color;
     
     /* all many owned by user */
     private int money;
     
-    public User(String name, int id){
+    public User(String name, int id, UserColor color){
         this.userName = name;
         this.id = id;
+        this.color = color;
+        this.money = 50;
     }
     
     /**
@@ -98,5 +103,15 @@ public class User {
     public void setMoney(int money) {
         this.money = money;
     }
+
+    public UserColor getColor() {
+        return color;
+    }
+
+    public void setColor(UserColor color) {
+        this.color = color;
+    }
+    
+    
     
 }

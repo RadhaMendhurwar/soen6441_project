@@ -4,6 +4,8 @@
  */
 package kingdom.config;
 
+import kingdom.gameitems.Const.UserColor;
+
 /**
  *
  * @author andriy
@@ -19,6 +21,11 @@ public class StartWizardConfig {
     private String usename1 = "";
     private String usename2 = "";
     private String usename3 = "";
+    // user colors
+    private UserColor userColor0 = null;
+    private UserColor userColor1 = null;
+    private UserColor userColor2 = null;
+    private UserColor userColor3 = null;
 
     public boolean isLoadSelected() {
         return loadSelected;
@@ -67,6 +74,39 @@ public class StartWizardConfig {
     public void setUsename3(String usename3) {
         this.usename3 = usename3;
     }
+
+    public UserColor getUserColor0() {
+        return userColor0;
+    }
+
+    public void setUserColor0(UserColor userColor0) {
+        this.userColor0 = userColor0;
+    }
+
+    public UserColor getUserColor1() {
+        return userColor1;
+    }
+
+    public void setUserColor1(UserColor userColor1) {
+        this.userColor1 = userColor1;
+    }
+
+    public UserColor getUserColor2() {
+        return userColor2;
+    }
+
+    public void setUserColor2(UserColor userColor2) {
+        this.userColor2 = userColor2;
+    }
+
+    public UserColor getUserColor3() {
+        return userColor3;
+    }
+
+    public void setUserColor3(UserColor userColor3) {
+        this.userColor3 = userColor3;
+    }
+    
     
     
 }

@@ -3,6 +3,8 @@
  */
 package kingdom.gameitems;
 
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 /**
@@ -12,6 +14,7 @@ import javax.swing.JPanel;
  * the game border
  */
 public class BoardCell extends JPanel{
+    public static final int SIDE = 80;
     
     /* hint to shown when mouse-over */
     private String hint;
@@ -20,6 +23,9 @@ public class BoardCell extends JPanel{
     
     public BoardCell(){
         // TODO
+       
+         
+         init();
     }
     
     /**
@@ -44,6 +50,26 @@ public class BoardCell extends JPanel{
      */
     public void setItem(BorderItem item) {
         this.item = item;
+    }
+
+    private void init() {
+        setBackground(new java.awt.Color(150, 242, 150));
+        setPreferredSize(new Dimension(SIDE, SIDE));
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                super.mouseEntered(evt);
+                setBackground(new java.awt.Color(200, 242, 200));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                setBackground(new java.awt.Color(150, 242, 150));
+            }
+            
+            
+        });
     }
     
     

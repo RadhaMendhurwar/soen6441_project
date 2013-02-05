@@ -5,8 +5,13 @@
 package kingdom.ui;
 
 import java.awt.CardLayout;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import kingdom.config.StartWizardConfig;
+import kingdom.gameitems.Const.UserColor;
 import kingdom.gameitems.Game;
 
 /**
@@ -17,6 +22,10 @@ public class StartWizard extends javax.swing.JDialog {
     
     private final StartWizardConfig wizConfig = new StartWizardConfig();
     private final Game theGame = Game.getInstance();
+    private DefaultComboBoxModel comboModel0 = new DefaultComboBoxModel(UserColor.values());
+    private DefaultComboBoxModel comboModel1 = new DefaultComboBoxModel(UserColor.values());
+    private DefaultComboBoxModel comboModel2 = new DefaultComboBoxModel(UserColor.values());
+    private DefaultComboBoxModel comboModel3 = new DefaultComboBoxModel(UserColor.values());
 
     /**
      * Creates new form StartWizard
@@ -59,6 +68,14 @@ public class StartWizard extends javax.swing.JDialog {
         edtUser2 = new javax.swing.JTextField();
         edtUser3 = new javax.swing.JTextField();
         edtUser4 = new javax.swing.JTextField();
+        cmbColorU1 = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        cmbColorU2 = new javax.swing.JComboBox();
+        cmbColorU3 = new javax.swing.JComboBox();
+        cmbColorU4 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Start configuration");
@@ -135,8 +152,10 @@ public class StartWizard extends javax.swing.JDialog {
             }
         });
 
+        jLabel6.setBackground(new java.awt.Color(161, 185, 223));
         jLabel6.setText("players");
 
+        chkLoadGame.setBackground(new java.awt.Color(161, 185, 223));
         chkLoadGame.setText("Load last saved Game");
         chkLoadGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +163,7 @@ public class StartWizard extends javax.swing.JDialog {
             }
         });
 
+        chkUserNum.setBackground(new java.awt.Color(161, 185, 223));
         chkUserNum.setSelected(true);
         chkUserNum.setText("Start new game with ");
         chkUserNum.addActionListener(new java.awt.event.ActionListener() {
@@ -166,14 +186,14 @@ public class StartWizard extends javax.swing.JDialog {
                         .addComponent(cmbUsers, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)))
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         wizPage1Layout.setVerticalGroup(
             wizPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(wizPage1Layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addComponent(chkLoadGame)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addGroup(wizPage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbUsers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
@@ -198,6 +218,22 @@ public class StartWizard extends javax.swing.JDialog {
 
         lblUser4.setText("User4 Name:");
 
+        cmbColorU1.setModel(comboModel0);
+
+        jLabel1.setText("Color: ");
+
+        jLabel2.setText("Color: ");
+
+        jLabel3.setText("Color: ");
+
+        jLabel4.setText("Color: ");
+
+        cmbColorU2.setModel(comboModel1);
+
+        cmbColorU3.setModel(comboModel2);
+
+        cmbColorU4.setModel(comboModel3);
+
         javax.swing.GroupLayout wizPage2Layout = new javax.swing.GroupLayout(wizPage2);
         wizPage2.setLayout(wizPage2Layout);
         wizPage2Layout.setHorizontalGroup(
@@ -211,11 +247,23 @@ public class StartWizard extends javax.swing.JDialog {
                     .addComponent(lblUser4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edtUser4, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(edtUser3, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(edtUser2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(edtUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(94, Short.MAX_VALUE))
+                    .addComponent(edtUser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                    .addComponent(edtUser2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(edtUser3, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(edtUser4, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbColorU1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbColorU2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbColorU3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbColorU4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         wizPage2Layout.setVerticalGroup(
             wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,19 +271,27 @@ public class StartWizard extends javax.swing.JDialog {
                 .addGap(35, 35, 35)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser1)
-                    .addComponent(edtUser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 24, Short.MAX_VALUE)
+                    .addComponent(edtUser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbColorU1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 63, Short.MAX_VALUE)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser2)
-                    .addComponent(edtUser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 24, Short.MAX_VALUE)
+                    .addComponent(edtUser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmbColorU2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 63, Short.MAX_VALUE)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser3)
-                    .addComponent(edtUser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 24, Short.MAX_VALUE)
+                    .addComponent(edtUser3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(cmbColorU3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 64, Short.MAX_VALUE)
                 .addGroup(wizPage2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUser4)
-                    .addComponent(edtUser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(edtUser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(cmbColorU4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(96, 96, 96))
         );
 
@@ -358,11 +414,19 @@ public class StartWizard extends javax.swing.JDialog {
     private javax.swing.JPanel cardPanel;
     private javax.swing.JCheckBox chkLoadGame;
     private javax.swing.JCheckBox chkUserNum;
+    private javax.swing.JComboBox cmbColorU1;
+    private javax.swing.JComboBox cmbColorU2;
+    private javax.swing.JComboBox cmbColorU3;
+    private javax.swing.JComboBox cmbColorU4;
     private javax.swing.JComboBox cmbUsers;
     private javax.swing.JTextField edtUser1;
     private javax.swing.JTextField edtUser2;
     private javax.swing.JTextField edtUser3;
     private javax.swing.JTextField edtUser4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -401,8 +465,13 @@ public class StartWizard extends javax.swing.JDialog {
         int numberOfUser = wizConfig.getSelectedNumberOfUser();
         lblUser3.setVisible(numberOfUser > 2);
         edtUser3.setVisible(numberOfUser > 2);
+        jLabel3.setVisible(numberOfUser > 2);
+        cmbColorU3.setVisible(numberOfUser > 2);
+        
         lblUser4.setVisible(numberOfUser > 3);
         edtUser4.setVisible(numberOfUser > 3);
+        jLabel4.setVisible(numberOfUser > 3);
+        cmbColorU4.setVisible(numberOfUser > 3);
         
         btnFinish.setEnabled(true);
         btnNext.setEnabled(false);
@@ -437,12 +506,52 @@ public class StartWizard extends javax.swing.JDialog {
             return false;
         }
         
+        // all colors must be different for all users
+        UserColor col0 = (UserColor)comboModel0.getSelectedItem();
+        UserColor col1 = (UserColor)comboModel1.getSelectedItem();
+        UserColor col2 = (UserColor)comboModel2.getSelectedItem();
+        UserColor col3 = (UserColor)comboModel3.getSelectedItem();
+        if(!isDifferentChoice(wizConfig.getSelectedNumberOfUser(), col0, col1, col2, col3)){
+            return false;
+        }
         
-        // update wizardConfig
+        // update wizardConfig usernames
         wizConfig.setUsename0(userName0);
         wizConfig.setUsename1(userName1);
         wizConfig.setUsename2(userName2);
         wizConfig.setUsename3(userName3);
+        // update wizard user colors
+        wizConfig.setUserColor0(col0);
+        wizConfig.setUserColor1(col1);
+        wizConfig.setUserColor2(col2);
+        wizConfig.setUserColor3(col3);
         return true;
     }
+
+    /* detect if some user has similar color selected */
+    private boolean isDifferentChoice(int userNumbers, UserColor col0, UserColor col1, UserColor col2, UserColor col3) {
+
+        List<UserColor> testList = new ArrayList<UserColor>();
+
+        testList.add(col0);
+
+        if (testList.contains(col1)) {
+            return false;
+        } else {
+            testList.add(col1);
+        }
+
+        if ((userNumbers > 2) && (testList.contains(col2))) {
+            return false;
+        } else {
+            testList.add(col2);
+        }
+
+        if ((userNumbers > 3) && (testList.contains(col3))) {
+            return false;
+        }
+
+        return true;
+    }
+    
 }

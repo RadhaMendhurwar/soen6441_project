@@ -9,6 +9,7 @@ import kingdom.config.ConfigManager;
 import kingdom.config.GameConfig;
 import kingdom.config.StartWizardConfig;
 import kingdom.utiles.InitHelper;
+import kingdom.utiles.RandomHelper;
 
 /**
  * Them main class (engine) of the game. The class contains all object to be able to run the game.
@@ -242,14 +243,17 @@ public class Game {
         this.epoch = 0;
         int numberOfUsers = wizConfig.getSelectedNumberOfUser();
         
-        this.activeUsers.add(new User(wizConfig.getUsename0(), 0));
-        this.activeUsers.add(new User(wizConfig.getUsename1(), 1));
+        this.activeUsers.add(new User(wizConfig.getUsename0(), 0, wizConfig.getUserColor0()));
+        this.activeUsers.add(new User(wizConfig.getUsename1(), 1, wizConfig.getUserColor1()));
         if(numberOfUsers > 2){
-            this.activeUsers.add(new User(wizConfig.getUsename2(), 2));
+            this.activeUsers.add(new User(wizConfig.getUsename2(), 2, wizConfig.getUserColor2()));
         }
         if(numberOfUsers > 3){
-            this.activeUsers.add(new User(wizConfig.getUsename3(), 3));
+            this.activeUsers.add(new User(wizConfig.getUsename3(), 3, wizConfig.getUserColor3()));
         }
+        
+        // set all start game values for all objects
+        initGameBegin();
     }
 
     /**
@@ -268,6 +272,28 @@ public class Game {
             currentUser++;
         }
         return activeUsers.get(currentUser);
+    }
+
+    /* does all game initialization (shuffling, default selection, default start user, ... */
+    private void initGameBegin() {
+        
+        // select random start user
+        this.currentUser = RandomHelper.getRandom(activeUsers.size());
+        
+        // shuffle all tiles 200 times
+        RandomHelper.shuffleList(freeTiles, 200);
+        
+        // set users tile and custles
+        for(User user: activeUsers){
+            // assign randomly one tile to each user
+            user.setOwnedTile(freeTiles.remove(0));
+            // assign all custles of specific color to user with same color
+            user.setCastles(InitHelper.getCastlesForColor(freeCastles, user.getColor()));
+        }
+        
+        // update (refresh) UI
+        // TODO implement propertiesChangeProvider
+        
     }
     
     

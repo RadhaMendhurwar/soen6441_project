@@ -3,11 +3,13 @@
  */
 package kingdom.utiles;
 
+import java.util.ArrayList;
 import java.util.List;
 import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.Castle;
 import kingdom.gameitems.Const;
 import kingdom.gameitems.Const.TileType;
+import kingdom.gameitems.Const.UserColor;
 import kingdom.gameitems.Tile;
 
 /**
@@ -108,6 +110,25 @@ public class InitHelper {
         freeCastles.add(new Castle(Const.UserColor.YELLOW, 1));
         freeCastles.add(new Castle(Const.UserColor.YELLOW, 1));
         freeCastles.add(new Castle(Const.UserColor.YELLOW, 1));
+    }
+
+    /**
+     * select specific Color castles from container of castles. Selected castles are removed from 
+     * <code>freeCastles</code> container.
+     * @param freeCastles all available castles
+     * @param color Color to select castles for
+     * @return List of all castles with requested Color
+     */
+    public static List<Castle> getCastlesForColor(List<Castle> freeCastles, UserColor color) {
+        List<Castle> result = new ArrayList<Castle>();
+        for(Castle castle : freeCastles){
+            if(castle.getColor() == color){
+                result.add(castle);
+            }
+        }
+        
+        freeCastles.removeAll(result);
+        return result;
     }
     
 }
