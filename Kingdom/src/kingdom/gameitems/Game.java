@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kingdom.config.ConfigManager;
 import kingdom.config.GameConfig;
+import kingdom.config.PropertyChangeProvider;
 import kingdom.config.StartWizardConfig;
 import kingdom.utiles.InitHelper;
 import kingdom.utiles.RandomHelper;
@@ -16,26 +17,43 @@ import kingdom.utiles.RandomHelper;
  * Instance of the class has to be created once at the beginning. This class has corespondent class GameConfig, that may be stored/restored.
  * The class has to be Singleton. (will be implemented later).
  */
-public class Game {
+public class Game extends PropertyChangeProvider{
     
     private static Game theInstance = null;
-    
     private static final ConfigManager confManager = new ConfigManager();
+    
+    /**
+     * fired after new config is set for the Game
+     */
+    public static final String PROP_SET_CONFIG = "newConfigIsSet";
+    
     /* current epoch */
     private int epoch;
+    public static final String PROP_EPOCH = "epoch";
+    
     /* user that has a turn */
     private int currentUser;
+    public static final String PROP_CURRENT_USER = "currentUser";
+    
     /* all many owned game(bank) */
     private int money;
+    public static final String PROP_MONEY = "money";
     
     /* all not used tiles in the game (shuffled) */
     private List<Tile> freeTiles = new ArrayList(23);
+    public static final String PROP_FREETILES = "freeTiles";
+    
      /* all not used castles in the game */
     private List<Castle> freeCastles = new ArrayList(16);
+    public static final String PROP_FREE_CASTLES = "freeCastles";
+    
     /* list of actually playing users [2-4] */
     private List<User> activeUsers = new ArrayList(4);
+    public static final String PROP_ACTIVE_USERS = "activeUsers";
+    
     /* board cells 5-rows, 6-columns [row][column] */
     private BoardCell[][] boardCells = new BoardCell[5][]; //[row][column];
+    public static final String PROP_BOARD_CELLS = "boardCells";
     
     /**
      * Main method to get reference to singleton Game object
@@ -235,9 +253,16 @@ public class Game {
             }
         }
 
+        // update (refresh) UI
+        firePropertyChange(PROP_SET_CONFIG, null, null);
         return true;
     }
 
+    /**
+     * Method copies all properties from StartWizardConfig into Game object. After calling of this method, the 
+     * game is initialised from Wizard and can be started
+     * @param wizConfig
+     */
     public void setStartInformation(StartWizardConfig wizConfig) {
         this.activeUsers.clear();
         this.epoch = 0;
@@ -288,12 +313,14 @@ public class Game {
             // assign randomly one tile to each user
             user.setOwnedTile(freeTiles.remove(0));
             // assign all custles of specific color to user with same color
-            user.setCastles(InitHelper.getCastlesForColor(freeCastles, user.getColor()));
+            user.setCastles(InitHelper.getCastlesForColor(freeCastles, user.getColor(), activeUsers.size()));
         }
         
-        // update (refresh) UI
-        // TODO implement propertiesChangeProvider
+        // remove unused castles (because of less then 4 user is plaing
+        InitHelper.removeUnusedCastles(freeCastles, activeUsers);
         
+        // update (refresh) UI
+        firePropertyChange(PROP_SET_CONFIG, null, null);
     }
     
     

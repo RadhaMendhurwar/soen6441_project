@@ -11,6 +11,7 @@ import kingdom.gameitems.Const;
 import kingdom.gameitems.Const.TileType;
 import kingdom.gameitems.Const.UserColor;
 import kingdom.gameitems.Tile;
+import kingdom.gameitems.User;
 
 /**
  * Helper class to create default properties for all objects (Game, User, ...)
@@ -119,16 +120,75 @@ public class InitHelper {
      * @param color Color to select castles for
      * @return List of all castles with requested Color
      */
-    public static List<Castle> getCastlesForColor(List<Castle> freeCastles, UserColor color) {
+    public static List<Castle> getCastlesForColor(List<Castle> freeCastles, UserColor color, int numberOfUsers) {
+        int rank1castleCounter = 0;
+        
         List<Castle> result = new ArrayList<Castle>();
         for(Castle castle : freeCastles){
             if(castle.getColor() == color){
+                // one rank castles are limited dependant of number of user in the game
+                // 2users - 4
+                // 3users - 3
+                // 4users - 2
+                if(castle.getRank() == 1){
+                    switch(numberOfUsers){
+                        case 4:// 4users - 2
+                            if(rank1castleCounter >= 2){
+                                continue;
+                            }
+                            break;
+                        case 3: // 3users - 3
+                            if(rank1castleCounter >= 3){
+                                continue;
+                            }
+                            break;
+                        case 2: // 2users - 4
+                            if(rank1castleCounter >= 4){
+                                continue;
+                            }
+                            break;
+                    }
+                }
                 result.add(castle);
+                
+                if(castle.getRank() == 1){
+                    rank1castleCounter++;
+                }
             }
         }
         
+        //remove all unused castles (when less then 4 user is playing 
+        
+        
         freeCastles.removeAll(result);
         return result;
+    }
+
+    public static void removeUnusedCastles(List<Castle> freeCastles, List<User> activeUsers) {
+        List<Castle> notUsedCastles = new ArrayList<Castle>();
+        
+        // init all available colors
+        List<UserColor> allColors = new ArrayList<UserColor>(4);
+        allColors.add(UserColor.BLUE);
+        allColors.add(UserColor.GREEN);
+        allColors.add(UserColor.RED);
+        allColors.add(UserColor.YELLOW);
+        
+        //remove used colors
+        for(User u: activeUsers){
+            allColors.remove(u.getColor());
+        }
+        
+        //remove not used color's castles 
+        for(UserColor col : allColors){
+            for(Castle c : freeCastles){
+                if(c.getColor() == col){
+                    notUsedCastles.add(c);
+                }
+            }
+        }
+        
+        freeCastles.removeAll(notUsedCastles);
     }
     
 }

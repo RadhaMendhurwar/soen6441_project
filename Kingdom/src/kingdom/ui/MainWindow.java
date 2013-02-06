@@ -3,9 +3,12 @@
  */
 package kingdom.ui;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import kingdom.gameitems.BoardCell;
+import kingdom.gameitems.Castle;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
@@ -13,7 +16,7 @@ import kingdom.gameitems.User;
 /**
  * Main window of the game. The window will show all properties of <code>Game.java</code>
  */
-public class MainWindow extends javax.swing.JFrame {
+public class MainWindow extends javax.swing.JFrame implements PropertyChangeListener{
     
     private final Game theGame = Game.getInstance();
 
@@ -23,7 +26,12 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         createCellZone();
-        redrawTiles();
+        
+        // register listeners
+        theGame.addPropertyChangeListener(this);
+        
+        redrawFreeTiles();
+        redrawFreeCastles();
     }
 
     /**
@@ -43,7 +51,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnlGame = new javax.swing.JPanel();
         pnlRight = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel5 = new javax.swing.JPanel();
+        panelCastles = new javax.swing.JPanel();
         panelTiles = new javax.swing.JPanel();
         pnlUserInfo = new javax.swing.JPanel();
         lblUser0 = new javax.swing.JLabel();
@@ -131,19 +139,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnlRight.setLayout(new java.awt.BorderLayout());
 
         jTabbedPane1.setBackground(new java.awt.Color(237, 236, 235));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Casles", jPanel5);
+        jTabbedPane1.addTab("Casles", panelCastles);
         jTabbedPane1.addTab("Tiles", panelTiles);
 
         pnlRight.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
@@ -279,9 +275,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemSaveGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveGameActionPerformed
-        // TODO add your handling code here:
         boolean isSaved = Game.getInstance().saveAllConfigs();
-        redrawTiles();
         if(isSaved){
             JOptionPane.showMessageDialog(this, "Configuration Saved");
         } else {
@@ -293,7 +287,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void itemLoadGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLoadGameActionPerformed
         // TODO add your handling code here:
         boolean loadResult = Game.getInstance().loadAllConfigs();
-        redrawTiles();
+        //redrawTiles(); //aaa
         if(loadResult){
             JOptionPane.showMessageDialog(this, "Configuration Loaded");
         } else {
@@ -363,7 +357,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -376,12 +369,19 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lblUserTile;
     private javax.swing.JLabel lblUserTotal;
     private javax.swing.JMenuBar mnbTopMenu;
+    private javax.swing.JPanel panelCastles;
     private javax.swing.JPanel panelTiles;
     private javax.swing.JPanel pnlGame;
     private javax.swing.JPanel pnlRight;
     private javax.swing.JPanel pnlUserInfo;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    public void dispose() {
+        theGame.removePropertyChangeListener(this);
+        super.dispose();
+    }
+    
     private void showNextUser() {
         
         User curUser = theGame.switchNextUser();
@@ -396,8 +396,6 @@ public class MainWindow extends javax.swing.JFrame {
         lblUserTile.setText("" + curUser.getOwnedTile());
         lblUserTotal.setText("" + curUser.getMoney());
         
-        //TODO remove next line after propertiesChangeListener is implemented
-        redrawTiles();
     }
 
     private void createCellZone() {
@@ -436,7 +434,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    private void redrawTiles(){
+    private void redrawFreeTiles(){
         panelTiles.removeAll();
         JLabel tempLabel;
         for(Tile t : theGame.getFreeTiles()){
@@ -444,6 +442,30 @@ public class MainWindow extends javax.swing.JFrame {
             panelTiles.add(tempLabel);
         }
         panelTiles.validate();
-        panelTiles.setVisible(true);
+        panelTiles.repaint();
+    }
+
+    private void redrawFreeCastles(){
+        panelCastles.removeAll();
+        String iconPath;
+        JLabel tempLabel;
+        
+         for(Castle c : theGame.getFreeCastles()){
+            tempLabel = new JLabel();
+            iconPath = "/res/" + String.valueOf(c.getColor()).toLowerCase().charAt(0) + String.valueOf(c.getRank()) + ".png";
+            tempLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(iconPath)));
+            panelCastles.add(tempLabel);
+        }
+        panelCastles.validate();
+        panelCastles.repaint();
+    }
+    
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String propName = evt.getPropertyName();
+        if(Game.PROP_SET_CONFIG.equals(propName)){
+            redrawFreeTiles();
+            redrawFreeCastles();
+        }
     }
 }
