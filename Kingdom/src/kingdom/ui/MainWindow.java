@@ -5,13 +5,17 @@ package kingdom.ui;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.Castle;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
+import kingdom.utiles.MoneyManager;
 
 /**
  * Main window of the game. The window will show all properties of <code>Game.java</code>
@@ -19,6 +23,9 @@ import kingdom.gameitems.User;
 public class MainWindow extends javax.swing.JFrame implements PropertyChangeListener{
     
     private final Game theGame = Game.getInstance();
+    
+    /* keeps all user JPanel object as value for User.NAME key */
+    private final Map<String, UserPanel> userPanels = new HashMap<String, UserPanel>();
 
     /**
      * Creates new form MainWindow
@@ -49,20 +56,12 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
         pnlGame = new javax.swing.JPanel();
+        btnNextUser = new javax.swing.JButton();
         pnlRight = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelCastles = new javax.swing.JPanel();
         panelTiles = new javax.swing.JPanel();
-        pnlUserInfo = new javax.swing.JPanel();
-        lblUser0 = new javax.swing.JLabel();
-        lblUser1 = new javax.swing.JLabel();
-        lblUser2 = new javax.swing.JLabel();
-        lblUser3 = new javax.swing.JLabel();
-        lblUserTotal = new javax.swing.JLabel();
-        lblUserName = new javax.swing.JLabel();
-        lblUserCastle = new javax.swing.JLabel();
-        lblUserTile = new javax.swing.JLabel();
-        btnNextUser = new javax.swing.JButton();
+        usersTabbedPanel = new javax.swing.JTabbedPane();
         mnbTopMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemSaveGame = new javax.swing.JMenuItem();
@@ -100,7 +99,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 951, Short.MAX_VALUE)
+            .addGap(0, 803, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,13 +108,22 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
+        jSplitPane1.setDividerLocation(550);
+
         jPanel3.setBackground(new java.awt.Color(190, 204, 249));
         jPanel3.setAutoscrolls(true);
-        jPanel3.setMinimumSize(new java.awt.Dimension(550, 100));
-        jPanel3.setPreferredSize(new java.awt.Dimension(700, 523));
+        jPanel3.setMinimumSize(new java.awt.Dimension(450, 100));
+        jPanel3.setPreferredSize(new java.awt.Dimension(600, 523));
 
         pnlGame.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         pnlGame.setLayout(new java.awt.GridLayout(5, 6, 3, 3));
+
+        btnNextUser.setText("Next");
+        btnNextUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextUserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -124,14 +132,18 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(518, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(btnNextUser)
+                .addGap(0, 554, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(468, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 409, Short.MAX_VALUE)
+                .addComponent(btnNextUser))
         );
 
         jSplitPane1.setLeftComponent(jPanel3);
@@ -143,85 +155,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jTabbedPane1.addTab("Tiles", panelTiles);
 
         pnlRight.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
-
-        pnlUserInfo.setBackground(new java.awt.Color(182, 242, 183));
-        pnlUserInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlUserInfo.setAutoscrolls(true);
-        pnlUserInfo.setPreferredSize(new java.awt.Dimension(245, 150));
-
-        lblUser0.setText("user: ");
-
-        lblUser1.setText("total $:");
-
-        lblUser2.setText("castle:");
-
-        lblUser3.setText("tile:");
-
-        lblUserTotal.setText(" ");
-
-        lblUserName.setText(" ");
-
-        lblUserCastle.setText(" ");
-
-        lblUserTile.setText(" ");
-
-        btnNextUser.setText("Next");
-        btnNextUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextUserActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout pnlUserInfoLayout = new javax.swing.GroupLayout(pnlUserInfo);
-        pnlUserInfo.setLayout(pnlUserInfoLayout);
-        pnlUserInfoLayout.setHorizontalGroup(
-            pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUserInfoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUser0)
-                    .addComponent(lblUser1)
-                    .addComponent(lblUser2)
-                    .addComponent(lblUser3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlUserInfoLayout.createSequentialGroup()
-                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUserName)
-                            .addComponent(lblUserTotal))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 266, Short.MAX_VALUE)
-                        .addComponent(btnNextUser))
-                    .addGroup(pnlUserInfoLayout.createSequentialGroup()
-                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUserCastle)
-                            .addComponent(lblUserTile))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-        );
-        pnlUserInfoLayout.setVerticalGroup(
-            pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlUserInfoLayout.createSequentialGroup()
-                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlUserInfoLayout.createSequentialGroup()
-                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUser0)
-                            .addComponent(lblUserName))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblUser1)
-                            .addComponent(lblUserTotal)))
-                    .addComponent(btnNextUser))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUser2)
-                    .addComponent(lblUserCastle))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlUserInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUser3)
-                    .addComponent(lblUserTile))
-                .addContainerGap(54, Short.MAX_VALUE))
-        );
-
-        pnlRight.add(pnlUserInfo, java.awt.BorderLayout.SOUTH);
+        pnlRight.add(usersTabbedPanel, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setRightComponent(pnlRight);
 
@@ -360,20 +294,12 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     private javax.swing.JPanel jPanel6;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblUser0;
-    private javax.swing.JLabel lblUser1;
-    private javax.swing.JLabel lblUser2;
-    private javax.swing.JLabel lblUser3;
-    private javax.swing.JLabel lblUserCastle;
-    private javax.swing.JLabel lblUserName;
-    private javax.swing.JLabel lblUserTile;
-    private javax.swing.JLabel lblUserTotal;
     private javax.swing.JMenuBar mnbTopMenu;
     private javax.swing.JPanel panelCastles;
     private javax.swing.JPanel panelTiles;
     private javax.swing.JPanel pnlGame;
     private javax.swing.JPanel pnlRight;
-    private javax.swing.JPanel pnlUserInfo;
+    private javax.swing.JTabbedPane usersTabbedPanel;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -390,12 +316,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             return;
         }
         
-        //show user info
-        lblUserName.setText(curUser.getUserName());
-        lblUserCastle.setText("" + curUser.getCastles());
-        lblUserTile.setText("" + curUser.getOwnedTile());
-        lblUserTotal.setText("" + curUser.getMoney());
-        
+        usersTabbedPanel.setSelectedIndex(theGame.getCurrentUser());
     }
 
     private void createCellZone() {
@@ -452,7 +373,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         
          for(Castle c : theGame.getFreeCastles()){
             tempLabel = new JLabel();
-            iconPath = "/res/" + String.valueOf(c.getColor()).toLowerCase().charAt(0) + String.valueOf(c.getRank()) + ".png";
+            iconPath = "/res/24x24/" + String.valueOf(c.getColor()).toLowerCase().charAt(0) + String.valueOf(c.getRank()) + ".png";
             tempLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(iconPath)));
             panelCastles.add(tempLabel);
         }
@@ -466,6 +387,17 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         if(Game.PROP_SET_CONFIG.equals(propName)){
             redrawFreeTiles();
             redrawFreeCastles();
+            createUserPanels();
+        }
+    }
+
+    private void createUserPanels() {
+        usersTabbedPanel.removeAll();
+        UserPanel temp;
+        
+        for(User u : theGame.getActiveUsers()){
+            temp = new UserPanel(u);
+            usersTabbedPanel.addTab(temp.NAME, temp);
         }
     }
 }

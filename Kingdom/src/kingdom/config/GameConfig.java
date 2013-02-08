@@ -12,6 +12,7 @@ import kingdom.gameitems.Const;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
+import kingdom.utiles.MoneyManager;
 
 /**
  * Contains all properties of application
@@ -26,7 +27,7 @@ public class GameConfig {
     /* user that has a turn */
     private int currentUser;
     /* all many owned game(bank) */
-    private int money;
+    private int[] bankWallet;
     
     /* all not used tiles in the game (shuffled) */
     private List<Tile> freeTiles;
@@ -44,7 +45,7 @@ public class GameConfig {
     public GameConfig(Game game) {
         this.epoch = game.getEpoch();
         this.currentUser = game.getCurrentUser();
-        this.money = game.getMoney();
+        this.bankWallet = game.getBankWallet();
         
         this.freeTiles = game.getFreeTiles();
         this.freeCastles = game.getFreeCastles();
@@ -92,18 +93,18 @@ public class GameConfig {
 
     /**
      *
-     * @return total amount of money in Game Money Bank
+     * @return wallet of Bank
      */
-    public int getMoney() {
-        return money;
+    public int[] getBankWallet() {
+        return bankWallet;
     }
 
     /**
      *
-     * @param money total amount of money in Game Money Bank
+     * @param bankWallet  wallet of Bank
      */
-    public void setMoney(int money) {
-        this.money = money;
+    public void setBankWallet(int[] bankWallet) {
+        this.bankWallet = bankWallet;
     }
 
     /**

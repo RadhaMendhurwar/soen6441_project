@@ -10,6 +10,7 @@ import kingdom.config.GameConfig;
 import kingdom.config.PropertyChangeProvider;
 import kingdom.config.StartWizardConfig;
 import kingdom.utiles.InitHelper;
+import kingdom.utiles.MoneyManager;
 import kingdom.utiles.RandomHelper;
 
 /**
@@ -36,8 +37,8 @@ public class Game extends PropertyChangeProvider{
     public static final String PROP_CURRENT_USER = "currentUser";
     
     /* all many owned game(bank) */
-    private int money;
-    public static final String PROP_MONEY = "money";
+    private int[] bankWallet = new int[MoneyManager.WALLET_SIZE];
+    public static final String PROP_MONEY = "bankWallet";
     
     /* all not used tiles in the game (shuffled) */
     private List<Tile> freeTiles = new ArrayList(23);
@@ -86,7 +87,10 @@ public class Game extends PropertyChangeProvider{
         InitHelper.createBoardCells(boardCells);
         InitHelper.createTiles(freeTiles);
         InitHelper.createCastles(freeCastles);
-        this.money = 1079;
+        
+        /* 1$, 5$, 10$, 50$, 100$ */
+        this.bankWallet = new int[] {19, 12, 20, 8, 4};
+        
         this.currentUser = 0;
         this.epoch = 0;
     }
@@ -148,19 +152,10 @@ public class Game extends PropertyChangeProvider{
     }
 
     /**
-     *
-     * @return total amount of money in Game Money Bank
+     * @return wallet (money in Game Money Bank)
      */
-    public int getMoney() {
-        return money;
-    }
-
-    /**
-     *
-     * @param money total amount of money in Game Money Bank
-     */
-    public void setMoney(int money) {
-        this.money = money;
+    public int[] getBankWallet() {
+        return bankWallet;
     }
 
     /**
@@ -229,14 +224,14 @@ public class Game extends PropertyChangeProvider{
 
     /**
      * Copies all parameters from configuration into actual object
-     * @param conf Configuration initialized from file in file system
+     * @param conf Configuration initialised from file in file system
      * @return  true if success
      */
     private boolean updateThisByConfig(GameConfig conf) {
 
         this.epoch = conf.getEpoch();
         this.currentUser = conf.getCurrentUser();
-        this.money = conf.getMoney();
+        this.bankWallet = conf.getBankWallet();
         this.freeTiles = conf.getFreeTiles();
         /* all not used castles in the game */
         this.freeCastles = conf.getFreeCastles();
@@ -315,6 +310,9 @@ public class Game extends PropertyChangeProvider{
             // assign all custles of specific color to user with same color
             user.setCastles(InitHelper.getCastlesForColor(freeCastles, user.getColor(), activeUsers.size()));
         }
+        
+        // remove from Bank amount given for users
+        MoneyManager.withdrawMoney(bankWallet, MoneyManager.c50, activeUsers.size());
         
         // remove unused castles (because of less then 4 user is plaing
         InitHelper.removeUnusedCastles(freeCastles, activeUsers);

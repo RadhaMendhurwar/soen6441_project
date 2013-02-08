@@ -23,13 +23,14 @@ public class User {
     private UserColor color;
     
     /* all many owned by user */
-    private int money;
+    private int[] wallet;
     
     public User(String name, int id, UserColor color){
         this.userName = name;
         this.id = id;
         this.color = color;
-        this.money = 50;
+        /* 1$, 5$, 10$, 50$, 100$ */
+        this.wallet = new int[] {0, 0, 0, 1, 0};
     }
     
     /**
@@ -96,12 +97,8 @@ public class User {
         this.castles = castles;
     }
 
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
+    public int[] getWallet() {
+        return wallet;
     }
 
     public UserColor getColor() {

@@ -92,7 +92,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,-73"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,60,0,0,3,35"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -121,7 +121,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="951" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="803" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -132,6 +132,9 @@
           </Layout>
         </Container>
         <Container class="javax.swing.JSplitPane" name="jSplitPane1">
+          <Properties>
+            <Property name="dividerLocation" type="int" value="550"/>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
               <BorderConstraints direction="Center"/>
@@ -147,10 +150,10 @@
                 </Property>
                 <Property name="autoscrolls" type="boolean" value="true"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[550, 100]"/>
+                  <Dimension value="[450, 100]"/>
                 </Property>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[700, 523]"/>
+                  <Dimension value="[600, 523]"/>
                 </Property>
               </Properties>
               <Constraints>
@@ -162,10 +165,14 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           <Component id="pnlGame" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="518" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="btnNextUser" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="554" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -174,7 +181,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="pnlGame" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="468" max="32767" attributes="0"/>
+                          <EmptySpace pref="409" max="32767" attributes="0"/>
+                          <Component id="btnNextUser" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -196,6 +204,14 @@
                     <Property name="verticalGap" type="int" value="3"/>
                   </Layout>
                 </Container>
+                <Component class="javax.swing.JButton" name="btnNextUser">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Next"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextUserActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="pnlRight">
@@ -245,141 +261,14 @@
                     </Container>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="pnlUserInfo">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="b7" green="f2" red="b6" type="rgb"/>
-                    </Property>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                        <LineBorder/>
-                      </Border>
-                    </Property>
-                    <Property name="autoscrolls" type="boolean" value="true"/>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[245, 150]"/>
-                    </Property>
-                  </Properties>
+                <Container class="javax.swing.JTabbedPane" name="usersTabbedPanel">
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                       <BorderConstraints direction="South"/>
                     </Constraint>
                   </Constraints>
 
-                  <Layout>
-                    <DimensionLayout dim="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblUser0" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblUser1" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblUser2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblUser3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblUserName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblUserTotal" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace pref="266" max="32767" attributes="0"/>
-                                      <Component id="btnNextUser" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblUserCastle" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblUserTile" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                    <DimensionLayout dim="1">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblUser0" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblUserName" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="lblUser1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblUserTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Component id="btnNextUser" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblUser2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblUserCastle" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="lblUser3" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblUserTile" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="54" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                    </DimensionLayout>
-                  </Layout>
-                  <SubComponents>
-                    <Component class="javax.swing.JLabel" name="lblUser0">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="user: "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUser1">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="total $:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUser2">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="castle:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUser3">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="tile:"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUserTotal">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value=" "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUserName">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value=" "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUserCastle">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value=" "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JLabel" name="lblUserTile">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value=" "/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="btnNextUser">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Next"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextUserActionPerformed"/>
-                      </Events>
-                    </Component>
-                  </SubComponents>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
                 </Container>
               </SubComponents>
             </Container>
