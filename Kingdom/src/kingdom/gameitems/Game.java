@@ -22,6 +22,12 @@ public class Game extends PropertyChangeProvider{
     
     private static Game theInstance = null;
     private static final ConfigManager confManager = new ConfigManager();
+     /**
+     * fired after cell is selected on the game boarder
+     */
+    public static final String PROP_SELL_SELECTED = "selectedCell";
+    //currently selected cell in the game board (with red border)
+    private BoardCell selectedCell = null;
     
     /**
      * fired after new config is set for the Game
@@ -319,6 +325,26 @@ public class Game extends PropertyChangeProvider{
         
         // update (refresh) UI
         firePropertyChange(PROP_SET_CONFIG, null, null);
+    }
+
+    /**
+     *
+     * @return Cell selected on the game board (with red border)
+     */
+    public BoardCell getSelectedCell() {
+        return selectedCell;
+    }
+
+    /**
+     *
+     * @param selectedCell Cell selected on the game board (with red border)
+     */
+    public void setSelectedCell(BoardCell selectedCell) {
+        firePropertyChange(PROP_SELL_SELECTED, this.selectedCell, selectedCell);
+        if (this.selectedCell != null) {
+            this.selectedCell.setBorder(null);
+        }
+        this.selectedCell = selectedCell;
     }
     
     

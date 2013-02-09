@@ -23,9 +23,8 @@ public class BoardCell extends JPanel{
     
     public BoardCell(){
         // TODO
-       
-         
          init();
+         addListeners();
     }
     
     /**
@@ -70,6 +69,17 @@ public class BoardCell extends JPanel{
             
             
         });
+    }
+
+    private void addListeners() {
+        
+         addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(255, 0, 0)));
+                Game.getInstance().setSelectedCell(BoardCell.this);
+            }
+        });
+        
     }
     
     

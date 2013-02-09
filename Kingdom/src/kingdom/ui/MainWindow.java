@@ -9,13 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.Castle;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
-import kingdom.utiles.MoneyManager;
 
 /**
  * Main window of the game. The window will show all properties of <code>Game.java</code>
@@ -70,11 +68,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jMenu2 = new javax.swing.JMenu();
         actNextUser = new javax.swing.JMenuItem();
 
-        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel6MouseEntered(evt);
-            }
-        });
+        jPanel6.setBorder(null);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -135,7 +129,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(btnNextUser)
-                .addGap(0, 554, Short.MAX_VALUE))
+                .addGap(0, 504, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,10 +235,6 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     private void btnNextUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextUserActionPerformed
         showNextUser();
     }//GEN-LAST:event_btnNextUserActionPerformed
-
-    private void jPanel6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel6MouseEntered
 
     /**
      * @param args the command line arguments
