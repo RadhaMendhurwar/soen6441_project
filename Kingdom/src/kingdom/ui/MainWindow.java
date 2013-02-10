@@ -3,6 +3,7 @@
  */
 package kingdom.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,9 +12,12 @@ import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import kingdom.actions.IGameAction.ActionResult;
+import kingdom.actions.LoadCofigAction;
 import kingdom.actions.MoveItemFromUserToBoard;
+import kingdom.actions.SaveCofigAction;
 import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.Castle;
+import kingdom.gameitems.Const;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
@@ -54,6 +58,10 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        lbltop1 = new javax.swing.JLabel();
+        lblEpoch = new javax.swing.JLabel();
+        jLabel_king = new javax.swing.JLabel();
+        lblTopUserName = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
         pnlGame = new javax.swing.JPanel();
@@ -67,9 +75,11 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         mnbTopMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemSaveGame = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         itemLoadGame = new javax.swing.JMenuItem();
-        itemStartWizard = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         actNextUser = new javax.swing.JMenuItem();
 
         jPanel6.setBorder(null);
@@ -83,15 +93,45 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
 
         jPanel2.setPreferredSize(new java.awt.Dimension(751, 50));
 
+        lbltop1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/epoch.png"))); // NOI18N
+
+        lblEpoch.setFont(new java.awt.Font("Cantarell", 2, 24)); // NOI18N
+        lblEpoch.setForeground(new java.awt.Color(255, 0, 198));
+        lblEpoch.setText("0");
+
+        jLabel_king.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/king.png"))); // NOI18N
+
+        lblTopUserName.setFont(new java.awt.Font("Courier", 3, 18)); // NOI18N
+        lblTopUserName.setForeground(new java.awt.Color(255, 0, 0));
+        lblTopUserName.setText("...");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 803, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbltop1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblEpoch)
+                .addGap(52, 52, 52)
+                .addComponent(jLabel_king)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTopUserName)
+                .addContainerGap(476, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblTopUserName)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel_king)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbltop1)
+                            .addComponent(lblEpoch))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
@@ -139,7 +179,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 409, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 437, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNextUser)
                     .addComponent(btnMoveUserItem)))
@@ -172,6 +212,14 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         });
         jMenu1.add(itemSaveGame);
 
+        jMenuItem2.setText("Save Game to ...");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         itemLoadGame.setText("Load Game");
         itemLoadGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,17 +228,25 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         });
         jMenu1.add(itemLoadGame);
 
-        itemStartWizard.setText("Start Game");
-        itemStartWizard.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem1.setText("Load Game from ...");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemStartWizardActionPerformed(evt);
+                jMenuItem1ActionPerformed(evt);
             }
         });
-        jMenu1.add(itemStartWizard);
+        jMenu1.add(jMenuItem1);
 
         mnbTopMenu.add(jMenu1);
 
         jMenu2.setText("Start");
+
+        jMenuItem3.setText("Start Game");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
 
         actNextUser.setText("Next User (debug)");
         actNextUser.addActionListener(new java.awt.event.ActionListener() {
@@ -219,7 +275,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
 
     private void itemLoadGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemLoadGameActionPerformed
         // TODO add your handling code here:
-        boolean loadResult = Game.getInstance().loadAllConfigs();
+        boolean loadResult = Game.getInstance().loadAllConfigs(null);
         //redrawTiles(); //aaa
         if(loadResult){
             JOptionPane.showMessageDialog(this, "Configuration Loaded");
@@ -227,11 +283,6 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             JOptionPane.showMessageDialog(this, "Problem loading Configuration", null, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_itemLoadGameActionPerformed
-
-    private void itemStartWizardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemStartWizardActionPerformed
-        StartWizard startWizard = new StartWizard(this, true);
-        startWizard.setVisible(true);
-    }//GEN-LAST:event_itemStartWizardActionPerformed
 
     private void actNextUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actNextUserActionPerformed
         showNextUser();
@@ -256,6 +307,23 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             showNextUser();
         }
     }//GEN-LAST:event_btnMoveUserItemActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        LoadCofigAction action = new LoadCofigAction(this, theGame);
+        action.execute();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        SaveCofigAction action = new SaveCofigAction(this, theGame);
+        action.execute();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        StartWizard startWizard = new StartWizard(this, true);
+        startWizard.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,15 +365,21 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     private javax.swing.JButton btnNextUser;
     private javax.swing.JMenuItem itemLoadGame;
     private javax.swing.JMenuItem itemSaveGame;
-    private javax.swing.JMenuItem itemStartWizard;
+    private javax.swing.JLabel jLabel_king;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblEpoch;
+    private javax.swing.JLabel lblTopUserName;
+    private javax.swing.JLabel lbltop1;
     private javax.swing.JMenuBar mnbTopMenu;
     private javax.swing.JPanel panelCastles;
     private javax.swing.JPanel panelTiles;
@@ -327,7 +401,8 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             return;
         }
         
-        usersTabbedPanel.setSelectedIndex(theGame.getCurrentUser());
+        usersTabbedPanel.setSelectedIndex(theGame.getCurrentUserNumber());
+        refreshPanelUserName();
     }
 
     private void createCellZone() {
@@ -400,6 +475,8 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             redrawFreeCastles();
             createUserPanels();
             refreshAllCells();
+            refreshEpoch();
+            refreshPanelUserName();
         }
     }
 
@@ -413,7 +490,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         }
         
         // open panel for active user
-        usersTabbedPanel.setSelectedIndex(theGame.getCurrentUser());
+        usersTabbedPanel.setSelectedIndex(theGame.getCurrentUserNumber());
     }
 
     private void refreshAllCells() {
@@ -423,5 +500,47 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             }
         }
         pnlGame.repaint();
+    }
+
+    private void refreshEpoch() {
+        // epoch is zero based
+        int epoch = theGame.getEpoch() + 1;
+        
+        lblEpoch.setText(String.valueOf(epoch));
+        lblEpoch.repaint();
+    }
+    
+    private void refreshPanelUserName() {
+        // epoch is zero based
+        String userName = "";
+        Color foreColor = new Color(0, 0, 0);
+
+        if (theGame.getActiveUsers().size() > 1 && theGame.getCurrentUserNumber() < theGame.getActiveUsers().size()) {
+            User curUser = theGame.getActiveUsers().get(theGame.getCurrentUserNumber());
+            userName = curUser.getUserName();
+            
+            switch (curUser.getColor()) {
+                case RED:
+                    foreColor = new Color(255, 0, 0);
+                    break;
+                case GREEN:
+                    foreColor = new Color(0, 255, 0);
+                    break;
+                case BLUE:
+                    foreColor = new Color(0, 0, 255);
+                    break;
+                case YELLOW:
+                    foreColor = new Color(255, 255, 0);
+                    break;
+                default: {
+                    Const.logErr(this, "Illegal State for user. Undefined color type");
+                }
+            }
+
+        }
+
+        lblTopUserName.setText(userName);
+        lblTopUserName.setForeground(foreColor);
+
     }
 }

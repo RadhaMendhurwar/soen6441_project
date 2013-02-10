@@ -311,7 +311,7 @@ public class StartWizard extends javax.swing.JDialog {
 
         if (wizConfig.isLoadSelected()) {
             Game game = Game.getInstance();
-            boolean result = game.loadAllConfigs();
+            boolean result = game.loadAllConfigs(null);
             if (result) {
                 this.dispose();
             } else {

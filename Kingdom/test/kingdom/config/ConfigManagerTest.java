@@ -62,7 +62,7 @@ public class ConfigManagerTest {
         System.out.println("loadConfig");
         
         Game game = Game.getInstance();
-        game.loadAllConfigs();
+        game.loadAllConfigs(null);
         
         int result = game.getEpoch();
         assertEquals(result, 2);

@@ -44,7 +44,7 @@ public class GameConfig {
      */
     public GameConfig(Game game) {
         this.epoch = game.getEpoch();
-        this.currentUser = game.getCurrentUser();
+        this.currentUser = game.getCurrentUserNumber();
         this.bankWallet = game.getBankWallet();
         
         this.freeTiles = game.getFreeTiles();

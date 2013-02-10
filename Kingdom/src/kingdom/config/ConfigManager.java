@@ -27,13 +27,15 @@ public class ConfigManager {
     /**
      * Store <code>gameConfig</code> object into xml file in file system. 
      * @param gameConfig main configuration object of the Game. It contains all properties of game state.
+     * @param fileName name of file to save the config (relative to Application folder)
      * @return true if success
      */
-    public boolean saveConfig(GameConfig gameConfig) {
+    public boolean saveConfig(GameConfig gameConfig, String fileName) {
+        String fileToSave = (fileName == null || fileName.isEmpty()) ? OUT_FILE : fileName;
         XStream xstream = new XStream(new DomDriver());
         String xml = xstream.toXML(gameConfig);
         try {
-            String outFilePath = Const.GAME_HOME_FOLDER + OUT_FILE;
+            String outFilePath = Const.GAME_HOME_FOLDER + fileToSave;
 
             File gameDirectory = new File(Const.GAME_HOME_FOLDER);
             if (!gameDirectory.exists()) {
@@ -57,13 +59,14 @@ public class ConfigManager {
 
     /**
      * Restore <code>gameConfig</code> object from xml file in file system. 
+     * @param  fileName file name (relative to application folder).
      * @return Previously saved <code>gameConfig</code> object. Or NULL if some problem.
      */
-    public GameConfig loadConfig() {
+    public GameConfig loadConfig(String fileName) {
         Object obj;
         try {
             XStream xstream = new XStream(new DomDriver());
-            obj = xstream.fromXML(new File(Const.GAME_HOME_FOLDER + OUT_FILE));
+            obj = xstream.fromXML(new File(Const.GAME_HOME_FOLDER + fileName));
 
             if (obj != null) {
                 GameConfig conf = (GameConfig) obj;
@@ -75,6 +78,14 @@ public class ConfigManager {
             return null;
         }
         return null;
+    }
+    
+    /**
+     * Restore default <code>gameConfig</code> object from xml file in file system. 
+     * @return Previously saved <code>gameConfig</code> object. Or NULL if some problem.
+     */
+    public GameConfig loadConfig() {
+        return loadConfig(OUT_FILE);
     }
 
     /**

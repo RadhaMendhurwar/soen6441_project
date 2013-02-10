@@ -3,8 +3,6 @@
  */
 package kingdom.gameitems;
 
-import kingdom.actions.MoveItemFromUserToBoard;
-
 /**
  * Keep all constants and types
  */
@@ -32,6 +30,10 @@ public class Const {
     
     public static void logErr(Object source, String message){
         Const.log(source, message, LogType.ERROR);
+    }
+    
+    public static void logInfo(Object source, String message){
+        Const.log(source, message, LogType.INFO);
     }
     
     public static void log(Object source, String string, LogType messageType) {

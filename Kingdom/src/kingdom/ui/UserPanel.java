@@ -7,8 +7,10 @@ package kingdom.ui;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import kingdom.gameitems.Castle;
+import kingdom.gameitems.Const.UserColor;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.ItemLabel;
 import kingdom.gameitems.Tile;
@@ -28,6 +30,7 @@ public class UserPanel extends JPanel {
     private List<Castle> userCastles;
     /* all many owned by user */
     private int[] userWallet;
+    private UserColor userColor;
     
     private final JPanel pTop = new JPanel();
     private final JPanel pCenter = new JPanel();
@@ -38,6 +41,7 @@ public class UserPanel extends JPanel {
         init();
         updateProperties(user);
         userWallet = user.getWallet();
+        this.userColor = user.getColor();
     }
 
     private void init() {
@@ -154,6 +158,14 @@ public class UserPanel extends JPanel {
 
             @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                
+                //check if clicked on items of current user
+                User user = Game.getInstance().getCurrentUser();
+                if(user == null || user.getColor() != userColor){
+                    JOptionPane.showMessageDialog(UserPanel.this, "Only items of current King can be selected");
+                    return;
+                }
+                
                 tempLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 255, 0)));
                 Game.getInstance().setSelectedItem(tempLabel);
             }

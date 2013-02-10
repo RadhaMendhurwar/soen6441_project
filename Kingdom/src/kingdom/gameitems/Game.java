@@ -112,21 +112,40 @@ public class Game extends PropertyChangeProvider{
     }
     
     /**
-     * Generate Configuration from actual state of the class Game, and save this configuration into file system.
+     * Generate Configuration from actual state of the class Game, and save this configuration into Default file.
      * @return true if success
      */
     public boolean saveAllConfigs(){
+        return saveAllConfigs(null);
+    }
+    
+    /**
+     * Generate Configuration from actual state of the class Game, and save this configuration into provided file.
+     * @param fileName file to save (relative to application folder)
+     * @return true if success
+     */
+    public boolean saveAllConfigs(String fileName){
         GameConfig gc = new GameConfig(this);
-        return confManager.saveConfig(gc);
+        return confManager.saveConfig(gc, fileName);
     }
     
     /**
      * Load previously saved configuration from file system. Update actual class Game with all properties loaded from configuration. 
+     * @param fileName name of config file to load, otherwise default name (game_config.xml) will be used
      * @return true if success
      */
-    public boolean loadAllConfigs(){
-        GameConfig conf = confManager.loadConfig();
-        return this.updateThisByConfig(conf);
+    public boolean loadAllConfigs(String fileName){
+        GameConfig conf = null;
+        if(fileName == null || fileName.isEmpty()){
+            conf = confManager.loadConfig();
+        } else {
+            conf = confManager.loadConfig(fileName);
+        }
+        if(conf != null){
+            return this.updateThisByConfig(conf);
+        } else {
+            return false;
+        }
     }
     
     
@@ -155,8 +174,25 @@ public class Game extends PropertyChangeProvider{
      *
      * @return number of user that has to perform operation (actual user)
      */
-    public int getCurrentUser() {
+    public int getCurrentUserNumber() {
         return currentUser;
+    }
+    
+    /**
+     *
+     * @return object User for current user (user that has to perform operation). Return NULL if game not initialised
+     */
+    public User getCurrentUser() {
+        
+        if(activeUsers == null || activeUsers.isEmpty()){
+            return null;
+        }
+        
+        if(currentUser >= activeUsers.size()){
+            return null;
+        }
+        
+        return activeUsers.get(currentUser);
     }
 
     /**

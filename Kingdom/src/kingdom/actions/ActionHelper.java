@@ -19,7 +19,7 @@ class ActionHelper {
 
     public static BorderItem findAndRemoveUserItem(Game theGame, BorderItem item) {
 
-        User user = theGame.getActiveUsers().get(theGame.getCurrentUser());
+        User user = theGame.getActiveUsers().get(theGame.getCurrentUserNumber());
 
         if (item instanceof Tile) {
             if (user.getOwnedTile() == item) {
