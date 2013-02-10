@@ -3,12 +3,15 @@
  */
 package kingdom.ui;
 
+import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import kingdom.actions.IGameAction.ActionResult;
+import kingdom.actions.MoveItemFromUserToBoard;
 import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.Castle;
 import kingdom.gameitems.Game;
@@ -55,6 +58,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jPanel3 = new javax.swing.JPanel();
         pnlGame = new javax.swing.JPanel();
         btnNextUser = new javax.swing.JButton();
+        btnMoveUserItem = new javax.swing.JButton();
         pnlRight = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panelCastles = new javax.swing.JPanel();
@@ -69,17 +73,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         actNextUser = new javax.swing.JMenuItem();
 
         jPanel6.setBorder(null);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kingdom");
@@ -119,6 +113,13 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             }
         });
 
+        btnMoveUserItem.setText("Move Item");
+        btnMoveUserItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoveUserItemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -129,7 +130,9 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(btnNextUser)
-                .addGap(0, 504, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnMoveUserItem)
+                .addGap(0, 411, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +140,9 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
                 .addGap(31, 31, 31)
                 .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 409, Short.MAX_VALUE)
-                .addComponent(btnNextUser))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNextUser)
+                    .addComponent(btnMoveUserItem)))
         );
 
         jSplitPane1.setLeftComponent(jPanel3);
@@ -236,6 +241,22 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         showNextUser();
     }//GEN-LAST:event_btnNextUserActionPerformed
 
+    private void btnMoveUserItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveUserItemActionPerformed
+
+        MoveItemFromUserToBoard action = new MoveItemFromUserToBoard(this, theGame);
+        ActionResult result = action.execute();
+        if (result == ActionResult.SUCCESS) {
+
+            //update user panel
+            Component userTab = usersTabbedPanel.getSelectedComponent();
+            if (userTab instanceof UserPanel) {
+                UserPanel panel = (UserPanel) userTab;
+                panel.refreshUserPanel();
+            }
+            showNextUser();
+        }
+    }//GEN-LAST:event_btnMoveUserItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -272,6 +293,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem actNextUser;
+    private javax.swing.JButton btnMoveUserItem;
     private javax.swing.JButton btnNextUser;
     private javax.swing.JMenuItem itemLoadGame;
     private javax.swing.JMenuItem itemSaveGame;
@@ -299,7 +321,6 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     }
     
     private void showNextUser() {
-        
         User curUser = theGame.switchNextUser();
         
         if(curUser == null){
@@ -378,6 +399,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             redrawFreeTiles();
             redrawFreeCastles();
             createUserPanels();
+            refreshAllCells();
         }
     }
 
@@ -389,5 +411,17 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
             temp = new UserPanel(u);
             usersTabbedPanel.addTab(temp.NAME, temp);
         }
+        
+        // open panel for active user
+        usersTabbedPanel.setSelectedIndex(theGame.getCurrentUser());
+    }
+
+    private void refreshAllCells() {
+        for(BoardCell[] row : theGame.getBoardCells()){
+            for(BoardCell cell : row){
+                cell.updateCell();
+            }
+        }
+        pnlGame.repaint();
     }
 }

@@ -9,17 +9,8 @@
         </Property>
       </Properties>
 
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="100" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
+        <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
     </Container>
     <Menu class="javax.swing.JMenuBar" name="mnbTopMenu">
@@ -174,7 +165,9 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="btnNextUser" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="504" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnMoveUserItem" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="411" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -184,7 +177,10 @@
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="pnlGame" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="409" max="32767" attributes="0"/>
-                          <Component id="btnNextUser" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnNextUser" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnMoveUserItem" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -212,6 +208,14 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextUserActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnMoveUserItem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Move Item"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMoveUserItemActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

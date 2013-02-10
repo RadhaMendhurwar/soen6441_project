@@ -3,6 +3,8 @@
  */
 package kingdom.gameitems;
 
+import kingdom.actions.MoveItemFromUserToBoard;
+
 /**
  * Keep all constants and types
  */
@@ -21,6 +23,21 @@ public class Const {
      * Total number of columns in the game board
      */
     public static final int COLS = 6;
+
+    public enum LogType{
+        ERROR,
+        WARNING,
+        INFO
+    }
+    
+    public static void logErr(Object source, String message){
+        Const.log(source, message, LogType.ERROR);
+    }
+    
+    public static void log(Object source, String string, LogType messageType) {
+        String text = "\n: " + messageType + "\t[" + source.getClass().getSimpleName() + "]\t" + string;
+        System.out.print(text);
+    }
     
     /**
      * type of tile on the board

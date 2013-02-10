@@ -9,6 +9,8 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import kingdom.gameitems.Castle;
+import kingdom.gameitems.Game;
+import kingdom.gameitems.ItemLabel;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
 import kingdom.utiles.MoneyManager;
@@ -60,44 +62,45 @@ public class UserPanel extends JPanel {
 
     private void updateProperties(User user) {
         this.userWallet = user.getWallet();
-        
-        if (this.userTile != user.getOwnedTile()) {
-            this.userTile = user.getOwnedTile();
-            drawUserInfo();
-        }
+        this.userTile = user.getOwnedTile();
+        this.userCastles = user.getCastles();
 
-        if (userCastles == null || userCastles.size() != user.getCastles().size()) {
-            this.userCastles = user.getCastles();
-            drawCasles();
-        }
-
+        drawUserInfo();
+        drawTileAndCasles();
         drawMoney();
     }
 
     private void drawUserInfo() {
         pCenter.removeAll();
         pCenter.add(new JLabel("Gold total: " + MoneyManager.getTotal(userWallet)));
+        pCenter.repaint();
     }
 
-    private void drawCasles() {
+    
+    private void drawTileAndCasles() {
         pButtom.removeAll();
         String iconPath;
-        JLabel tempLabel;
+        ItemLabel tempLabel = null;
 
         // first - draw user tile
         if (userTile != null) {
-            tempLabel = new JLabel(userTile.toString());
+            tempLabel = new ItemLabel(userTile.toString());
             pButtom.add(tempLabel);
+            addClickListeners(tempLabel);
+            tempLabel.setItem(userTile);
         }
 
         // draw users castles
         for (Castle c : userCastles) {
-            tempLabel = new JLabel();
+            tempLabel = new ItemLabel();
             iconPath = "/res/24x24/" + String.valueOf(c.getColor()).toLowerCase().charAt(0) + String.valueOf(c.getRank()) + ".png";
             tempLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource(iconPath)));
             pButtom.add(tempLabel);
+            addClickListeners(tempLabel);
+            tempLabel.setItem(c);
         }
 
+        pButtom.repaint();
     }
 
     private void drawMoney() {
@@ -143,5 +146,23 @@ public class UserPanel extends JPanel {
             x += xIncr;
             y = 2;
         }
+        pTop.repaint();
+    }
+
+    private void addClickListeners(final ItemLabel tempLabel) {
+        tempLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tempLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 255, 0)));
+                Game.getInstance().setSelectedItem(tempLabel);
+            }
+        });
+    }
+    
+    public void refreshUserPanel(){
+        this.drawTileAndCasles();
+        this.drawMoney();
+        this.drawUserInfo();
     }
 }

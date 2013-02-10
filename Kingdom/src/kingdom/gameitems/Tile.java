@@ -3,6 +3,7 @@
  */
 package kingdom.gameitems;
 
+import javax.swing.Icon;
 import kingdom.gameitems.Const.TileType;
 
 /**
@@ -56,6 +57,16 @@ public class Tile extends BorderItem{
             }
         }
         return result;
+    }
+
+    @Override
+    public Icon getSmallImage() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Icon getBigImage() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

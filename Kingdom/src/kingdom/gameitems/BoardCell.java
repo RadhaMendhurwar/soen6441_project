@@ -5,6 +5,7 @@ package kingdom.gameitems;
 
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -22,17 +23,17 @@ public class BoardCell extends JPanel{
     private BorderItem item;
     
     public BoardCell(){
-        // TODO
-         init();
-         addListeners();
+        this(null);
     }
     
     /**
      *
      * @param item the item placed on the cell (may be Tile or Castle). Set NULL if cell is empty, so it will accept item later.
      */
-    public BoardCell(BorderItem item){
+    public BoardCell(BorderItem item) {
         this.item = item;
+        init();
+        addListeners();
     }
 
     /**
@@ -49,13 +50,21 @@ public class BoardCell extends JPanel{
      */
     public void setItem(BorderItem item) {
         this.item = item;
+        updateCell();
     }
 
     private void init() {
+        this.setLayout(null);
         setBackground(new java.awt.Color(150, 242, 150));
         setPreferredSize(new Dimension(SIDE, SIDE));
 
+        
+    }
+
+    private void addListeners() {
+
         addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 super.mouseEntered(evt);
                 setBackground(new java.awt.Color(200, 242, 200));
@@ -66,22 +75,32 @@ public class BoardCell extends JPanel{
                 super.mouseExited(e);
                 setBackground(new java.awt.Color(150, 242, 150));
             }
-            
-            
-        });
-    }
 
-    private void addListeners() {
-        
-         addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                if(item != null){ // cell is not empty, cannot be selected anymore
+                    return;
+                }
                 setBorder(javax.swing.BorderFactory.createMatteBorder(5, 5, 5, 5, new java.awt.Color(255, 0, 0)));
                 Game.getInstance().setSelectedCell(BoardCell.this);
             }
         });
-        
+
     }
-    
+
+    public void updateCell() {
+        if(this.item == null){
+            removeAll();
+            return;
+        }
+
+        JLabel iconLabel = new JLabel(item.getBigImage());
+        add(iconLabel);
+        iconLabel.setBounds(0, 0, SIDE, SIDE);
+        setBorder(null);
+        this.revalidate();
+    }
+
     
     
 }

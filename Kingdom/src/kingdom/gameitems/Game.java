@@ -5,6 +5,7 @@ package kingdom.gameitems;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JLabel;
 import kingdom.config.ConfigManager;
 import kingdom.config.GameConfig;
 import kingdom.config.PropertyChangeProvider;
@@ -25,14 +26,23 @@ public class Game extends PropertyChangeProvider{
      /**
      * fired after cell is selected on the game boarder
      */
-    public static final String PROP_SELL_SELECTED = "selectedCell";
-    //currently selected cell in the game board (with red border)
-    private BoardCell selectedCell = null;
+    public static final String PROP_SELECTED_CELL = "selectedCell";
+    private BoardCell selectedCell = null;//currently selected cell in the game board (with red border)
+    
+     /**
+     * fired after mouse click done on Tile or Castle label (may be in user panel or in Tile/Castle bank)
+     */
+    public static final String PROP_SELECTED_ITEM = "selectedItem";
+    private ItemLabel selectedItem = null;
     
     /**
      * fired after new config is set for the Game
      */
     public static final String PROP_SET_CONFIG = "newConfigIsSet";
+    /**
+     * fired when user item is moved from user into game boarder
+     */
+    public static final String PROP_USER_ITEM_MOVED = "userItemIsMovedToGameBoarder";
     
     /* current epoch */
     private int epoch;
@@ -221,14 +231,6 @@ public class Game extends PropertyChangeProvider{
     }
 
     /**
-     *
-     * @param boardCells  Two dimensional array that represent a border cells size 5x6 [row][column]
-     */
-    public void setBoardCells(BoardCell[][] boardCells) {
-        this.boardCells = boardCells;
-    }
-
-    /**
      * Copies all parameters from configuration into actual object
      * @param conf Configuration initialised from file in file system
      * @return  true if success
@@ -248,9 +250,8 @@ public class Game extends PropertyChangeProvider{
 
         // create all border cells based on saved items that was on the board
         for (int r = 0; r < this.boardCells.length; ++r) {
-            boardCells[r] = new BoardCell[6];
             for (int c = 0; c < boardCells[r].length; ++c) {
-                boardCells[r][c] = new BoardCell(placedItems.get(c + Const.COLS * r));
+                boardCells[r][c].setItem(placedItems.get(c + Const.COLS * r));
             }
         }
 
@@ -340,12 +341,33 @@ public class Game extends PropertyChangeProvider{
      * @param selectedCell Cell selected on the game board (with red border)
      */
     public void setSelectedCell(BoardCell selectedCell) {
-        firePropertyChange(PROP_SELL_SELECTED, this.selectedCell, selectedCell);
+        firePropertyChange(PROP_SELECTED_CELL, this.selectedCell, selectedCell);
         if (this.selectedCell != null) {
             this.selectedCell.setBorder(null);
         }
         this.selectedCell = selectedCell;
     }
+
+    /**
+     *
+     * @return may be label in user panel or in Tile/Castle bank
+     */
+    public ItemLabel getSelectedItem() {
+        return selectedItem;
+    }
+
+    /**
+     *
+     * @param selectedItem may be label in user panel or in Tile/Castle bank
+     */
+    public void setSelectedItem(ItemLabel selectedItem) {
+        firePropertyChange(PROP_SELECTED_ITEM, this.selectedItem, selectedItem);
+        if (this.selectedItem != null) {
+            this.selectedItem.setBorder(null);
+        }
+        this.selectedItem = selectedItem;
+    }
+    
     
     
 }
