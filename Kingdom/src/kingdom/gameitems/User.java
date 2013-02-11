@@ -30,7 +30,7 @@ public class User {
         this.id = id;
         this.color = color;
         /* 1$, 5$, 10$, 50$, 100$ */
-        this.wallet = new int[] {5, 3, 3, 0, 0};
+        this.wallet = new int[] {0, 2, 4, 0, 0};
     }
     
     /**

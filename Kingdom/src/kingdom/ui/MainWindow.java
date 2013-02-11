@@ -21,6 +21,7 @@ import kingdom.gameitems.Const;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
+import kingdom.utiles.MoneyManager;
 
 /**
  * Main window of the game. The window will show all properties of <code>Game.java</code>
@@ -44,6 +45,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         
         redrawFreeTiles();
         redrawFreeCastles();
+        updateBankMoneyLabel();
     }
 
     /**
@@ -62,6 +64,9 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         lblEpoch = new javax.swing.JLabel();
         jLabel_king = new javax.swing.JLabel();
         lblTopUserName = new javax.swing.JLabel();
+        pnlTopGameInfo = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblBankTotal = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
         pnlGame = new javax.swing.JPanel();
@@ -105,6 +110,31 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         lblTopUserName.setForeground(new java.awt.Color(255, 0, 0));
         lblTopUserName.setText("...");
 
+        jLabel1.setFont(new java.awt.Font("Cantarell", 2, 12)); // NOI18N
+        jLabel1.setText("Banc money: ");
+
+        lblBankTotal.setFont(new java.awt.Font("Cantarell", 3, 12)); // NOI18N
+        lblBankTotal.setText("0");
+
+        javax.swing.GroupLayout pnlTopGameInfoLayout = new javax.swing.GroupLayout(pnlTopGameInfo);
+        pnlTopGameInfo.setLayout(pnlTopGameInfoLayout);
+        pnlTopGameInfoLayout.setHorizontalGroup(
+            pnlTopGameInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopGameInfoLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblBankTotal)
+                .addGap(0, 185, Short.MAX_VALUE))
+        );
+        pnlTopGameInfoLayout.setVerticalGroup(
+            pnlTopGameInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTopGameInfoLayout.createSequentialGroup()
+                .addGroup(pnlTopGameInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblBankTotal))
+                .addGap(0, 29, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -114,23 +144,26 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
                 .addComponent(lbltop1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblEpoch)
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel_king)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTopUserName)
-                .addContainerGap(476, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 222, Short.MAX_VALUE)
+                .addComponent(pnlTopGameInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(pnlTopGameInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblTopUserName)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel_king)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbltop1)
-                            .addComponent(lblEpoch))))
+                    .addComponent(lblEpoch)
+                    .addComponent(lbltop1)
+                    .addComponent(jLabel_king))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -165,14 +198,14 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(btnNextUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnMoveUserItem)
                 .addGap(0, 411, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(pnlGame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,6 +398,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     private javax.swing.JButton btnNextUser;
     private javax.swing.JMenuItem itemLoadGame;
     private javax.swing.JMenuItem itemSaveGame;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_king;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -377,6 +411,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     private javax.swing.JPanel jPanel6;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblBankTotal;
     private javax.swing.JLabel lblEpoch;
     private javax.swing.JLabel lblTopUserName;
     private javax.swing.JLabel lbltop1;
@@ -385,6 +420,7 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     private javax.swing.JPanel panelTiles;
     private javax.swing.JPanel pnlGame;
     private javax.swing.JPanel pnlRight;
+    private javax.swing.JPanel pnlTopGameInfo;
     private javax.swing.JTabbedPane usersTabbedPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -405,16 +441,22 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         refreshPanelUserName();
     }
 
+    /**
+     * remove all components (cells) from game board. Create new game board grid based on Game.BoardCell[][]
+     */
     private void createCellZone() {
-         BoardCell[][] cells = theGame.getBoardCells();
-         
-         for(BoardCell row[]: cells){
-             for(BoardCell cell: row){
-                 pnlGame.add(cell);
-             }
-         }
-         createNumericBorder();
-         pack();
+
+        pnlGame.removeAll();
+        BoardCell[][] cells = theGame.getBoardCells();
+
+        for (BoardCell row[] : cells) {
+            for (BoardCell cell : row) {
+                pnlGame.add(cell);
+            }
+        }
+        createNumericBorder();
+        //pack();
+        refreshAllCells();
     }
     
     /* draw numbers for columns and rows */
@@ -471,12 +513,9 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
     public void propertyChange(PropertyChangeEvent evt) {
         String propName = evt.getPropertyName();
         if(Game.PROP_SET_CONFIG.equals(propName)){
-            redrawFreeTiles();
-            redrawFreeCastles();
-            createUserPanels();
-            refreshAllCells();
-            refreshEpoch();
-            refreshPanelUserName();
+            refreshAllParts();
+        } else if (Game.PROP_BANK_WALET_CHANGED.equals(propName)){
+            updateBankMoneyLabel();
         }
     }
 
@@ -493,6 +532,9 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         usersTabbedPanel.setSelectedIndex(theGame.getCurrentUserNumber());
     }
 
+    /**
+     * update all cells in game board based on current cell content
+     */
     private void refreshAllCells() {
         for(BoardCell[] row : theGame.getBoardCells()){
             for(BoardCell cell : row){
@@ -515,11 +557,11 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         String userName = "";
         Color foreColor = new Color(0, 0, 0);
 
-        if (theGame.getActiveUsers().size() > 1 && theGame.getCurrentUserNumber() < theGame.getActiveUsers().size()) {
-            User curUser = theGame.getActiveUsers().get(theGame.getCurrentUserNumber());
-            userName = curUser.getUserName();
+        User currentUser = theGame.getCurrentUser();
+        if (currentUser != null) {
+            userName = currentUser.getUserName();
             
-            switch (curUser.getColor()) {
+            switch (currentUser.getColor()) {
                 case RED:
                     foreColor = new Color(255, 0, 0);
                     break;
@@ -536,11 +578,26 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
                     Const.logErr(this, "Illegal State for user. Undefined color type");
                 }
             }
-
         }
 
         lblTopUserName.setText(userName);
         lblTopUserName.setForeground(foreColor);
 
     }
+
+    private void updateBankMoneyLabel() {
+        int newTotal = MoneyManager.getTotal(theGame.getBankWallet());
+        lblBankTotal.setText(String.valueOf(newTotal));
+    }
+
+    private void refreshAllParts() {
+        redrawFreeTiles();
+        redrawFreeCastles();
+        createUserPanels();
+        createCellZone();
+        refreshEpoch();
+        refreshPanelUserName();
+        updateBankMoneyLabel();
+    }
+
 }

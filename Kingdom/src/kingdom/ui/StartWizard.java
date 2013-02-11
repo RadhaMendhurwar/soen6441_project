@@ -6,7 +6,6 @@ package kingdom.ui;
 
 import java.awt.CardLayout;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -309,9 +308,27 @@ public class StartWizard extends javax.swing.JDialog {
 
     private void btnFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinishActionPerformed
 
+        boolean canOwerrideActualState = true;
+
+        // check if actual game has valid config (to not cleare without user confirmation)
+        if (theGame.isGameStarted()) {
+            if (JOptionPane.showConfirmDialog(this,
+                    "New game will remove previous game state\n"
+                    + "Continue ?", "Use new config ?",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                canOwerrideActualState = true;
+                theGame.resetGameToDefault();
+            } else {
+                canOwerrideActualState = false;
+            }
+        }
+
+        if (!canOwerrideActualState) {
+            return;
+        }
+
         if (wizConfig.isLoadSelected()) {
-            Game game = Game.getInstance();
-            boolean result = game.loadAllConfigs(null);
+            boolean result = theGame.loadAllConfigs(null);
             if (result) {
                 this.dispose();
             } else {

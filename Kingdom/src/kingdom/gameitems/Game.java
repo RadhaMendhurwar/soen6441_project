@@ -4,8 +4,8 @@
 package kingdom.gameitems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import javax.swing.JLabel;
 import kingdom.config.ConfigManager;
 import kingdom.config.GameConfig;
 import kingdom.config.PropertyChangeProvider;
@@ -54,7 +54,7 @@ public class Game extends PropertyChangeProvider{
     
     /* all many owned game(bank) */
     private int[] bankWallet = new int[MoneyManager.WALLET_SIZE];
-    public static final String PROP_MONEY = "bankWallet";
+    public static final String PROP_BANK_WALET_CHANGED = "bankWallet";
     
     /* all not used tiles in the game (shuffled) */
     private List<Tile> freeTiles = new ArrayList(23);
@@ -96,19 +96,23 @@ public class Game extends PropertyChangeProvider{
      * may be removed later if not required
      */
     private Game(){
-        init();
+        initWithDefaultValues();
     }
 
-    private void init() {
+    private void initWithDefaultValues() {
         InitHelper.createBoardCells(boardCells);
         InitHelper.createTiles(freeTiles);
         InitHelper.createCastles(freeCastles);
+        // recet all users
+        this.activeUsers.clear();
         
         /* 1$, 5$, 10$, 50$, 100$ */
         this.bankWallet = new int[] {19, 12, 20, 8, 4};
-        
+            
         this.currentUser = 0;
         this.epoch = 0;
+        this.selectedCell = null;
+        this.selectedItem = null;
     }
     
     /**
@@ -315,6 +319,21 @@ public class Game extends PropertyChangeProvider{
             this.activeUsers.add(new User(wizConfig.getUsename3(), 3, wizConfig.getUserColor3()));
         }
         
+        // remove user's coints from Game Coins Bank
+        int[] oldWalet = Arrays.copyOf(bankWallet, bankWallet.length);
+        for(User u : activeUsers){
+            int[] walet = u.getWallet();
+            for(int i = 0; i < walet.length; ++i){
+                if(bankWallet[i] < walet[i]){
+                    throw new IllegalStateException("User request more money than Bank has");
+                }
+                bankWallet[i] -= walet[i];
+            }
+            int d = MoneyManager.getTotal(bankWallet);
+            int x = d;
+        }
+        firePropertyChange(PROP_BANK_WALET_CHANGED, oldWalet, bankWallet);
+        
         // set all start game values for all objects
         initGameBegin();
     }
@@ -353,9 +372,6 @@ public class Game extends PropertyChangeProvider{
             // assign all custles of specific color to user with same color
             user.setCastles(InitHelper.getCastlesForColor(freeCastles, user.getColor(), activeUsers.size()));
         }
-        
-        // remove from Bank amount given for users
-        MoneyManager.withdrawMoney(bankWallet, MoneyManager.c50, activeUsers.size());
         
         // remove unused castles (because of less then 4 user is plaing
         InitHelper.removeUnusedCastles(freeCastles, activeUsers);
@@ -403,7 +419,21 @@ public class Game extends PropertyChangeProvider{
         }
         this.selectedItem = selectedItem;
     }
+
+    /**
+     * Set all options to its default state. If game is started - ask user confirmation to reset current game state.
+     */
+    public void resetGameToDefault() {
+        initWithDefaultValues();
+    }
     
+    /**
+     *
+     * @return True when valid config is present in the game (When users are created)
+     */
+    public boolean isGameStarted(){
+        return this.activeUsers.size() > 0;
+    }
     
     
 }

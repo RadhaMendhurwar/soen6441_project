@@ -4,6 +4,7 @@
 package kingdom.gameitems;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import kingdom.gameitems.Const.TileType;
 
 /**
@@ -61,12 +62,14 @@ public class Tile extends BorderItem{
 
     @Override
     public Icon getSmallImage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //TODO imlement proper image when exists
+        return new ImageIcon(getClass().getResource("/res/coins/empty.png"));
     }
 
     @Override
     public Icon getBigImage() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //TODO imlement proper image when exists
+        return new ImageIcon(getClass().getResource("/res/coins/empty.png"));
     }
     
 }

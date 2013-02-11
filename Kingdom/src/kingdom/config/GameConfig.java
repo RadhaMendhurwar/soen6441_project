@@ -8,11 +8,9 @@ import java.util.List;
 import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.BorderItem;
 import kingdom.gameitems.Castle;
-import kingdom.gameitems.Const;
 import kingdom.gameitems.Game;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
-import kingdom.utiles.MoneyManager;
 
 /**
  * Contains all properties of application
