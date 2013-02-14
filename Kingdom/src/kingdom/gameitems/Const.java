@@ -3,6 +3,8 @@
  */
 package kingdom.gameitems;
 
+import java.awt.Color;
+
 /**
  * Keep all constants and types
  */
@@ -12,6 +14,10 @@ public class Const {
      * OS dependant character "/" or "\"
      */
     public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    /**
+     * Default background color for application
+     */
+    public static final Color BG_DEFAULT_COLOR = new Color(237,236,235);
     
     /**
      * Total number of rows in the game board

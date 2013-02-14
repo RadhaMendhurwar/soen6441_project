@@ -5,6 +5,7 @@ package kingdom.ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -19,8 +20,10 @@ import kingdom.gameitems.BoardCell;
 import kingdom.gameitems.Castle;
 import kingdom.gameitems.Const;
 import kingdom.gameitems.Game;
+import kingdom.gameitems.ItemLabel;
 import kingdom.gameitems.Tile;
 import kingdom.gameitems.User;
+import kingdom.utiles.ListenerHelper;
 import kingdom.utiles.MoneyManager;
 
 /**
@@ -483,11 +486,15 @@ public class MainWindow extends javax.swing.JFrame implements PropertyChangeList
         }
     }
     
-    private void redrawFreeTiles(){
+    private void redrawFreeTiles() {
         panelTiles.removeAll();
-        JLabel tempLabel;
-        for(Tile t : theGame.getFreeTiles()){
-            tempLabel = new JLabel("" + t.toString());
+        ItemLabel tempLabel;
+        for (Tile t : theGame.getFreeTiles()) {
+            tempLabel = new ItemLabel();
+            tempLabel.setItem(t);
+            tempLabel.setIcon(t.getCoverIcon());
+            tempLabel.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, Const.BG_DEFAULT_COLOR));
+            ListenerHelper.addTileLabelListeners(tempLabel);
             panelTiles.add(tempLabel);
         }
         panelTiles.validate();

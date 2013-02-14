@@ -88,7 +88,9 @@ public class UserPanel extends JPanel {
 
         // first - draw user tile
         if (userTile != null) {
-            tempLabel = new ItemLabel(userTile.toString());
+            tempLabel = new ItemLabel();
+            tempLabel.setToolTipText(userTile.toString());
+            tempLabel.setIcon(userTile.getSmallImage());
             pButtom.add(tempLabel);
             addClickListeners(tempLabel);
             tempLabel.setItem(userTile);

@@ -12,10 +12,12 @@ import kingdom.gameitems.Const.TileType;
  */
 public class Tile extends BorderItem{
     
-     /* type of tile */
-     private TileType tileType;
-     /* how many colds it give when scored (can be positive or negative) */
-     private int score;
+    /* type of tile */
+    private TileType tileType;
+    /* how many colds it give when scored (can be positive or negative) */
+    private int score;
+    
+    private final Icon coverIcon = new ImageIcon(getClass().getResource("/res/24x24/tile.png"));
      
      /**
      *
@@ -62,14 +64,17 @@ public class Tile extends BorderItem{
 
     @Override
     public Icon getSmallImage() {
-        //TODO imlement proper image when exists
-        return new ImageIcon(getClass().getResource("/res/coins/empty.png"));
+        return new ImageIcon(getClass().getResource("/res/tile1.png"));
     }
 
     @Override
     public Icon getBigImage() {
         //TODO imlement proper image when exists
         return new ImageIcon(getClass().getResource("/res/coins/empty.png"));
+    }
+
+    public Icon getCoverIcon() {
+        return coverIcon;
     }
     
 }

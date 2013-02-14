@@ -29,11 +29,17 @@ public class Game extends PropertyChangeProvider{
     public static final String PROP_SELECTED_CELL = "selectedCell";
     private BoardCell selectedCell = null;//currently selected cell in the game board (with red border)
     
-     /**
-     * fired after mouse click done on Tile or Castle label (may be in user panel or in Tile/Castle bank)
-     */
+    /**
+    * fired after mouse click done on Tile or Castle label (may be in user panel or in Tile/Castle bank)
+    */
     public static final String PROP_SELECTED_ITEM = "selectedItem";
     private ItemLabel selectedItem = null;
+    
+    /**
+    * fired after mouse click done on Tile or Castle label (may be in user panel or in Tile/Castle bank)
+    */
+    public static final String PROP_SELECTED_ITEM_TILE = "selectedItemTile";
+    private ItemLabel selectedItemTile = null;
     
     /**
      * fired after new config is set for the Game
@@ -433,6 +439,21 @@ public class Game extends PropertyChangeProvider{
      */
     public boolean isGameStarted(){
         return this.activeUsers.size() > 0;
+    }
+
+    public boolean setSelectedTile(ItemLabel selectedItemTile) {
+        // disable second selection, accept only recet (selectedItemTile==null)
+        if(selectedItemTile != null && this.selectedItemTile != null){
+            return false;
+        }
+        
+        firePropertyChange(PROP_SELECTED_ITEM_TILE, this.selectedItemTile, selectedItemTile);
+        if (this.selectedItemTile != null) {
+            Tile t = (Tile)selectedItemTile.getItem();
+            this.selectedItemTile.setIcon(t.getCoverIcon());
+        }
+        this.selectedItemTile = selectedItemTile;
+        return true;
     }
     
     
